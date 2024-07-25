@@ -3,144 +3,126 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "MLX42/MLX42.h"
-//#include "../include/so_long.h"
+#include <ctype.h>
+//#include "MLX42/MLX42.h"
+#include "../include/so_long.h"
 #include "../lib/MLX42/include/MLX42/MLX42.h"
 #define WIDTH 1024
 #define HEIGHT 1024
 
-	mlx_t* mlx;
-	mlx_image_t* img;
+rectangle_t rtg;
+mlx_t* mlx;
+mlx_image_t* img;
 
-// Exit the program as failure.
+typedef struct position
+{
+	int32_t	x;
+	int32_t	y;
+}	position_t;
+
+position_t pos;
+
 static void ft_error(void)
 {
 	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
 	exit(EXIT_FAILURE);
 }
 
-// Print the window width and height.
-/*static void ft_hook(void* param)
-{
-	const mlx_t* mlx = param;
-
-	printf("WIDTH: %d | HEIGHT: %d\n", mlx->width, mlx->height);
-}*/
-
-/*static	void	ft_init_window()
-{
-	int	width;
-	int	height;
-
-	width = 1024;
-	height = 1024;
-	mlx_t* mlx = mlx_init(width, height, "42Balls", true);
-	if (!mlx)
-		ft_error();
-	mlx_image_t* img = mlx_new_image(mlx, width, height);
-	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
-		ft_error();
-	//mlx_put_pixel(img, 0, 0, 0xFF0000FF);
-	mlx_put_pixel(img, width/2, height/2, 0xFFFFFFFF);
-	ft_paint_pixel(width/2, height/2);
-
-	// Register a hook and pass mlx as an optional param.
-	// NOTE: Do this before calling mlx_loop!
-	mlx_loop_hook(mlx, ft_hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-}*/
-
 static	void	ft_paint_pixel(int x, int y)
 {
-/*	mlx_t* mlx = mlx_init(width, height, "42Balls", true);
-	if (!mlx)
-		ft_error();
-	mlx_image_t* img = mlx_new_image(mlx, width, height);
-	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
-		ft_error();
-		*/
-	//mlx_put_pixel(img, 0, 0, 0xFF0000FF);
 	mlx_put_pixel(img, x, y, 0xFFFFFFFF);
-//	ft_paint_pixel(width/2, height/2);
-
-	// Register a hook and pass mlx as an optional param.
-	// NOTE: Do this before calling mlx_loop!
-	//mlx_loop_hook(mlx, ft_hook, mlx);
-/*	mlx_loop(mlx);
-	mlx_terminate(mlx);*/
 }
 
-/*static	void	ft_paint_pixel(int x, int y)
-{
-	mlx_image_t* img = mlx_new_image(mlx, 256, 256);
-	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
-		ft_error();
-	mlx_put_pixel(img, 0, 0, 0xFF0000FF);
-	
-}*/
-
-static	void	ft_paint_rectangle(int x, int y, int width, int height)
+void	ft_paint_rectangle(rectangle_t rtg)
 {
 	int	x2;
 	int	y2;
 
-	y2 = y;
-	while (y2 < height + y)
+	rtg.x = 0;
+	rtg.y = 0;
+	rtg.width = 42;
+	rtg.height = 84;
+	y2 = pos.y;
+	while (y2 < rtg.height + pos.y)
 	{
-		x2 = x;
-		while (x2 < width + x)
+		x2 = pos.x;
+		while (x2 < rtg.width + pos.x)
 		{
 			ft_paint_pixel(x2, y2);
 			x2++;
 		}
 		y2++;
 	}
+
+}
+
+void my_keyhook(mlx_key_data_t keydata, void* param)
+{
+	(void)param;
+	if (keydata.key >= 65 && keydata.key <= 90 && keydata.action == MLX_PRESS)
+	{
+		if (keydata.modifier == MLX_SHIFT)
+			printf("%c\n", toupper(keydata.key));
+		else
+		{
+			if (keydata.modifier == 0)
+				printf("%c\n", tolower(keydata.key));
+		}
+	}
+	// If we PRESS the 'D' key, print "Hello".
+	if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
+	{	
+		if (pos.x > WIDTH - rtg.width - 10)
+			return ;
+		pos.x += 10;
+		ft_paint_rectangle(rtg);
+	}
+	if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
+	{	
+		if (pos.y > HEIGHT - rtg.height - 10)
+			return ;
+		pos.y += 10;
+		ft_paint_rectangle(rtg);
+	}
+	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
+	{	
+		if (pos.x < 10)
+			return ;
+		pos.x -= 10;
+		ft_paint_rectangle(rtg);
+	}
+	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
+	{	
+		if (pos.y < 10)
+			return ;
+		pos.y -= 10;
+		ft_paint_rectangle(rtg);
+	}
+	//puts(D);
+
+	/*	// If we RELEASE the 'K' key, print "World".
+		if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
+		puts("World");
+
+	// If we HOLD the 'L' key, print "!".
+	if (keydata.key == MLX_KEY_L && keydata.action == MLX_REPEAT)
+	puts("!");*/
 }
 
 int32_t	main(void)
 {
-	int	x;
-	int	y;
-	int	w;
-	int	h;
+	//	mlx_t* mlx;
+	//	mlx_image_t* img;
 
-	x = 420;
-	y = 420;
-	w = 42;
-	h = 84;
-	mlx = mlx_init(WIDTH, HEIGHT, "Rectangle", true);
-	if (!mlx)
-		ft_error();
+	pos.x = 0;
+	pos.y = 0;
+	if (!(mlx = mlx_init(WIDTH, HEIGHT, "Hook", true)))
+		return (EXIT_FAILURE);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		ft_error();
-
-	// MLX allows you to define its core behaviour before startup.
-/*	mlx_set_setting(MLX_MAXIMIZED, true);
-	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "42Balls", true);
-	if (!mlx)
-		ft_error();
-*/
-	/* Do stuff */
-
-	// Create and display the image.
-/*	mlx_image_t* img = mlx_new_image(mlx, 256, 256);
-	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
-		ft_error();
-*/
-	// Even after the image is being displayed, we can still modify the buffer.
-	/*mlx_put_pixel(img, 0, 0, 0xFF0000FF);
-
-	// Register a hook and pass mlx as an optional param.
-	// NOTE: Do this before calling mlx_loop!
-	mlx_loop_hook(mlx, ft_hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	*/
-//	ft_init_window();
-//	ft_paint_pixel(x, y);
-	ft_paint_rectangle(x, y, w, h);
+	mlx_key_hook(mlx, &my_keyhook, NULL);
+	ft_paint_rectangle(rtg);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
