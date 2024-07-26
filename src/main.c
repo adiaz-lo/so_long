@@ -40,8 +40,8 @@ void	ft_paint_rectangle(rectangle_t *rtg)
 
 	rtg->x = 0;
 	rtg->y = 0;
-	rtg->width = 42;
-	rtg->height = 84;
+	rtg->width = 25;
+	rtg->height = 100;
 	y2 = pos.y;
 	while (y2 < rtg->height + pos.y)
 	{
@@ -73,14 +73,15 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	// If we PRESS the 'D' key, print "Hello".
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (pos.x > WIDTH - rtg.width)
+		printf("Checking limits %d\n", pos.x);
+		/*if (pos.x > WIDTH - rtg.width)
 		{
 			printf("Error\n");
 			printf("%d\n", rtg.width);
 			printf("%d\n", WIDTH - rtg.width);
 			printf("%p\n", &rtg);
 			return ;
-		}
+		}*/
 		pos.x += 10;
 		ft_paint_rectangle(&rtg);
 		printf("%d\n", pos.x);
@@ -132,6 +133,7 @@ int32_t	main(void)
 		ft_error();
 	mlx_key_hook(mlx, &my_keyhook, &rtg);
 	ft_paint_rectangle(&rtg);
+	ft_paint_pixel(1010, 500);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
