@@ -7,8 +7,8 @@
 //#include "MLX42/MLX42.h"
 #include "../include/so_long.h"
 #include "../lib/MLX42/include/MLX42/MLX42.h"
-#define WIDTH 1024
-#define HEIGHT 1024
+#define WIDTH 1000
+#define HEIGHT 1000
 
 rectangle_t rtg;
 mlx_t* mlx;
@@ -33,20 +33,20 @@ static	void	ft_paint_pixel(int x, int y)
 	mlx_put_pixel(img, x, y, 0xFFFFFFFF);
 }
 
-void	ft_paint_rectangle(rectangle_t rtg)
+void	ft_paint_rectangle(rectangle_t *rtg)
 {
 	int	x2;
 	int	y2;
 
-	rtg.x = 0;
-	rtg.y = 0;
-	rtg.width = 42;
-	rtg.height = 84;
+	rtg->x = 0;
+	rtg->y = 0;
+	rtg->width = 42;
+	rtg->height = 84;
 	y2 = pos.y;
-	while (y2 < rtg.height + pos.y)
+	while (y2 < rtg->height + pos.y)
 	{
 		x2 = pos.x;
-		while (x2 < rtg.width + pos.x)
+		while (x2 < rtg->width + pos.x)
 		{
 			ft_paint_pixel(x2, y2);
 			x2++;
@@ -58,7 +58,8 @@ void	ft_paint_rectangle(rectangle_t rtg)
 
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
-	(void)param;
+//	(void)param;
+	rectangle_t rtg = *(rectangle_t *)param;
 	if (keydata.key >= 65 && keydata.key <= 90 && keydata.action == MLX_PRESS)
 	{
 		if (keydata.modifier == MLX_SHIFT)
@@ -70,33 +71,41 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 		}
 	}
 	// If we PRESS the 'D' key, print "Hello".
-	if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (pos.x > WIDTH - rtg.width - 10)
+		if (pos.x > WIDTH - rtg.width)
+		{
+			printf("Error\n");
+			printf("%d\n", rtg.width);
+			printf("%d\n", WIDTH - rtg.width);
+			printf("%p\n", &rtg);
 			return ;
+		}
 		pos.x += 10;
-		ft_paint_rectangle(rtg);
+		ft_paint_rectangle(&rtg);
+		printf("%d\n", pos.x);
 	}
-	if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (pos.y > HEIGHT - rtg.height - 10)
+		if (pos.y > HEIGHT - rtg.height)
 			return ;
 		pos.y += 10;
-		ft_paint_rectangle(rtg);
+		ft_paint_rectangle(&rtg);
+		printf("%d\n", pos.y);
 	}
-	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
 		if (pos.x < 10)
 			return ;
 		pos.x -= 10;
-		ft_paint_rectangle(rtg);
+		ft_paint_rectangle(&rtg);
 	}
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
 		if (pos.y < 10)
 			return ;
 		pos.y -= 10;
-		ft_paint_rectangle(rtg);
+		ft_paint_rectangle(&rtg);
 	}
 	//puts(D);
 
@@ -121,8 +130,8 @@ int32_t	main(void)
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		ft_error();
-	mlx_key_hook(mlx, &my_keyhook, NULL);
-	ft_paint_rectangle(rtg);
+	mlx_key_hook(mlx, &my_keyhook, &rtg);
+	ft_paint_rectangle(&rtg);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
