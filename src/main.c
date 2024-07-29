@@ -30,7 +30,7 @@ static void ft_error(void)
 
 static	void	ft_paint_pixel(int x, int y)
 {
-	mlx_put_pixel(img, x, y, 0xFFFFFFFF);
+	mlx_put_pixel(img, x, y, 0x00FFFFFF);
 }
 
 void	ft_paint_rectangle(rectangle_t *rtg)
@@ -40,7 +40,7 @@ void	ft_paint_rectangle(rectangle_t *rtg)
 
 	rtg->x = 0;
 	rtg->y = 0;
-	rtg->width = 25;
+	rtg->width = 20;
 	rtg->height = 100;
 	y2 = pos.y;
 	while (y2 < rtg->height + pos.y)
@@ -60,7 +60,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 {
 //	(void)param;
 	rectangle_t rtg = *(rectangle_t *)param;
-	if (keydata.key >= 65 && keydata.key <= 90 && keydata.action == MLX_PRESS)
+	if (keydata.key >= MLX_KEY_A && keydata.key <= MLX_KEY_Z && keydata.action == MLX_PRESS)
 	{
 		if (keydata.modifier == MLX_SHIFT)
 			printf("%c\n", toupper(keydata.key));
@@ -74,21 +74,21 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
 		printf("Checking limits %d\n", pos.x);
-		/*if (pos.x > WIDTH - rtg.width)
+		if (pos.x > WIDTH - rtg.width - 1)
 		{
 			printf("Error\n");
 			printf("%d\n", rtg.width);
 			printf("%d\n", WIDTH - rtg.width);
 			printf("%p\n", &rtg);
 			return ;
-		}*/
+		}
 		pos.x += 10;
 		ft_paint_rectangle(&rtg);
 		printf("%d\n", pos.x);
 	}
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (pos.y > HEIGHT - rtg.height)
+		if (pos.y > HEIGHT - rtg.height - 10)
 			return ;
 		pos.y += 10;
 		ft_paint_rectangle(&rtg);
@@ -102,7 +102,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 		ft_paint_rectangle(&rtg);
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{	
+	{
 		if (pos.y < 10)
 			return ;
 		pos.y -= 10;
