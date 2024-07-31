@@ -94,7 +94,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 			printf("%p\n", &rtg);
 			return ;
 		}
-		mlx_delete_image(mlx, img);
+//		mlx_delete_image(mlx, img);
 		ft_paint_rectangle(&rtg, rtg.color);
 		pos.x += 10;
 		ft_paint_rectangle(&rtg, rtg.color);
@@ -104,7 +104,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	{	
 		if (pos.y > HEIGHT - rtg.height - 10)
 			return ;
-		mlx_delete_image(mlx, img);
+//		mlx_delete_image(mlx, img);
 		pos.y += 10;
 		ft_paint_rectangle(&rtg, rtg.color);
 		printf("%d\n", pos.y);
@@ -113,7 +113,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	{	
 		if (pos.x < 10)
 			return ;
-		mlx_delete_image(mlx, img);
+//		mlx_delete_image(mlx, img);
 		pos.x -= 10;
 		ft_paint_rectangle(&rtg, rtg.color);
 	}
@@ -121,7 +121,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	{
 		if (pos.y < 10)
 			return ;
-		mlx_delete_image(mlx, img);
+//		mlx_delete_image(mlx, img);
 		pos.y -= 10;
 		ft_paint_rectangle(&rtg, rtg.color);
 	}
@@ -148,6 +148,7 @@ int32_t	main(void)
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		ft_error();
+//	mlx_create_buffers(mlx);
 	mlx_key_hook(mlx, &my_keyhook, &rtg);
 	ft_paint_rectangle(&rtg, rtg.color);
 	//	ft_paint_pixel(1010, 500);
