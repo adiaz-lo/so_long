@@ -28,27 +28,39 @@ static void ft_error(void)
 	exit(EXIT_FAILURE);
 }
 
-static	void	ft_paint_pixel(int x, int y)
+// 'Encodes' four individual bytes into an int.
+int get_rgba(int r, int g, int b, int a)
 {
-	mlx_put_pixel(img, x, y, 0x00FFFFFF);
+    return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void	ft_paint_rectangle(rectangle_t *rtg)
+static	void	ft_paint_pixel(int x, int y, int32_t color)
+{
+	mlx_put_pixel(img, x, y, color);
+}
+
+void	ft_paint_rectangle(rectangle_t *rtg, color_t color)
 {
 	int	x2;
 	int	y2;
+	int	color_i;
 
 	rtg->x = 0;
 	rtg->y = 0;
 	rtg->width = 20;
 	rtg->height = 100;
+	color.red = 20;
+	color.green = 80;
+	color.blue = 74;
+	color.alpha = 127;
+	color_i = get_rgba(color.red, color.green, color.blue, color.alpha);
 	y2 = pos.y;
 	while (y2 < rtg->height + pos.y)
 	{
 		x2 = pos.x;
 		while (x2 < rtg->width + pos.x)
 		{
-			ft_paint_pixel(x2, y2);
+			ft_paint_pixel(x2, y2, color_i);
 			x2++;
 		}
 		y2++;
@@ -58,7 +70,7 @@ void	ft_paint_rectangle(rectangle_t *rtg)
 
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
-//	(void)param;
+	//	(void)param;
 	rectangle_t rtg = *(rectangle_t *)param;
 	if (keydata.key >= MLX_KEY_A && keydata.key <= MLX_KEY_Z && keydata.action == MLX_PRESS)
 	{
@@ -82,31 +94,36 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 			printf("%p\n", &rtg);
 			return ;
 		}
+		mlx_delete_image(mlx, img);
+		ft_paint_rectangle(&rtg, rtg.color);
 		pos.x += 10;
-		ft_paint_rectangle(&rtg);
+		ft_paint_rectangle(&rtg, rtg.color);
 		printf("%d\n", pos.x);
 	}
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
 		if (pos.y > HEIGHT - rtg.height - 10)
 			return ;
+		mlx_delete_image(mlx, img);
 		pos.y += 10;
-		ft_paint_rectangle(&rtg);
+		ft_paint_rectangle(&rtg, rtg.color);
 		printf("%d\n", pos.y);
 	}
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
 		if (pos.x < 10)
 			return ;
+		mlx_delete_image(mlx, img);
 		pos.x -= 10;
-		ft_paint_rectangle(&rtg);
+		ft_paint_rectangle(&rtg, rtg.color);
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		if (pos.y < 10)
 			return ;
+		mlx_delete_image(mlx, img);
 		pos.y -= 10;
-		ft_paint_rectangle(&rtg);
+		ft_paint_rectangle(&rtg, rtg.color);
 	}
 	//puts(D);
 
@@ -132,8 +149,8 @@ int32_t	main(void)
 	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		ft_error();
 	mlx_key_hook(mlx, &my_keyhook, &rtg);
-	ft_paint_rectangle(&rtg);
-	ft_paint_pixel(1010, 500);
+	ft_paint_rectangle(&rtg, rtg.color);
+	//	ft_paint_pixel(1010, 500);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);

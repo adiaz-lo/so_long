@@ -15,6 +15,14 @@
 	double		delta_time;
 }	mlx_t;*/
 
+typedef struct color
+{
+	int8_t	red;
+	int8_t	green;
+	int8_t	blue;
+	int8_t	alpha;
+}	color_t;
+
 /**
  * Struct to define a rectangle
  *
@@ -26,4 +34,5 @@ typedef	struct	rectangle
 	int32_t	height;
 	int32_t	x;
 	int32_t	y;
+	color_t	color;
 }	rectangle_t;

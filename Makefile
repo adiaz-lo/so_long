@@ -1,5 +1,6 @@
 NAME	:= Game
 CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS += -O3 -ffast-math -march='x86-64'
 LIBMLX	:= ./lib/MLX42
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include
