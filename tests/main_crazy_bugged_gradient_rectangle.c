@@ -45,7 +45,7 @@ void	ft_paint_rectangle(rectangle_t *rtg)
 {
 	int	x2;
 	int	y2;
-	// int	color_i;
+	int	color_i;
 
 	rtg->x = 0;
 	rtg->y = 0;
@@ -62,25 +62,11 @@ void	ft_paint_rectangle(rectangle_t *rtg)
 		x2 = pos.x;
 		while (x2 < rtg->width + pos.x)
 		{
-			// ft_paint_pixel(x2, y2, color_i);
-			ft_paint_pixel(x2, y2, (color_t *){200, 0, 0, 255});
+			ft_paint_pixel(x2, y2, color_i);
 			x2++;
 		}
 		y2++;
 	}
-}
-/**
- * This function does the refresh screen, repaiting everything in the image to black
- */
-void	ft_refresh_screen(rectangle_t *rtg)
-{
-	rtg->width = WIDTH;
-	rtg->height = HEIGHT;
-	rtg->color.red = 255;
-	rtg->color.green = 255;
-	rtg->color.blue = 255;
-	rtg->color.alpha = 255;
-	ft_paint_rectangle(rtg);
 }
 
 void my_keyhook(mlx_key_data_t keydata, void* param)
@@ -153,16 +139,13 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	puts("!");*/
 }
 
-int32_t	main(void)
+int	main(void)
 {
 	//	mlx_t* mlx;
 	//	mlx_image_t* img;
 
 	pos.x = 0;
 	pos.y = 0;
-	// mlx_set_setting(MLX_DECORATED, false);
-	// mlx_set_setting(MLX_HEADLESS, true);
-	// mlx_set_setting(MLX_FULLSCREEN, true);
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "Hook", true)))
 		return (EXIT_FAILURE);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
