@@ -109,9 +109,11 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 			// printf("%d\n", rtg.width);
 			// printf("%d\n", WIDTH - rtg.width);
 			// printf("%p\n", &rtg);
+			ft_refresh_screen(rtg);
 			return ;
 		}
 //		mlx_delete_image(mlx, img);
+		ft_refresh_screen(rtg);
 		ft_paint_rectangle(&rtg);
 		pos.x += 10;
 		ft_paint_rectangle(&rtg);
