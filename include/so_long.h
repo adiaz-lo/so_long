@@ -36,3 +36,12 @@ typedef	struct	rectangle
 	int32_t	y;
 	color_t	color;
 }	rectangle_t;
+
+/**
+ *
+ */
+typedef	struct	game
+{
+	mlx_image_t	*canvas;
+	rectangle_t	*img;
+}	game_t;
