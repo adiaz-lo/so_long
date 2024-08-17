@@ -1,3 +1,5 @@
+#include "../lib/MLX42/include/MLX42/MLX42.h"
+
 /**
  * Main MLX handle, carries important data in regards to the program.
  * @param window The window itself.
@@ -35,6 +37,7 @@ typedef	struct	rectangle
 	int32_t	x;
 	int32_t	y;
 	color_t	color;
+	mlx_image_t	*img;
 }	rectangle_t;
 
 /**
@@ -42,6 +45,8 @@ typedef	struct	rectangle
  */
 typedef	struct	game
 {
-	mlx_image_t	*canvas;
+//	mlx_image_t	*canvas;
+	mlx_t		*mlx;
+	rectangle_t	*canvas;
 	rectangle_t	*img;
 }	game_t;
