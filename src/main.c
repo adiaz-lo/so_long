@@ -41,30 +41,62 @@ int get_rgba(int r, int g, int b, int a)
 	mlx_put_pixel(canvas, x, y, color);
 }*/
 
+void	ft_put_pixels_rectangle(rectangle_t *rtg)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < rtg->height)
+	{
+		x = 0;
+		while (x < rtg->width)
+		{
+			// ft_paint_pixel(x2, y2, color_i);
+			//ft_paint_pixel(x2, y2, (color_t *){100, 100, 100, 127});
+//			mlx_put_pixel(rtg->img, x, y, get_rgba(rtg->color.red, rtg->color.green, rtg->color.blue, rtg->color.alpha));
+			//mlx_put_pixel(rtg->img, x, y, get_rgba(rtg->color.red, rtg->color.green, rtg->color.blue, 1));	Gradient Light Grey Little Rectangle & Darker Light Grey Background
+			mlx_put_pixel(rtg->img, x, y, get_rgba(rtg->color.red, rtg->color.green, rtg->color.blue, rtg->color.alpha));
+			x++;
+		}
+		y++;
+	}
+}
+
 /**
  * Initializes the rectangle struct to NULL
  */
-int	ft_initialize_struct(game_t *game)
+int	ft_initialize_struct(game_t **game)
 {
 	mlx_t* mlx;
 	mlx_image_t* canvas_img;
 	mlx_image_t* img;
+	//int	color_i;
+
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "Hook", true)))
 		return (EXIT_FAILURE);
 	canvas_img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	if (!canvas_img)
 		ft_error();
 	img = mlx_new_image(mlx, I_WIDTH, I_HEIGHT);
-	game = calloc(1, sizeof(game_t));
-	game->mlx = mlx;
-	game->canvas = calloc(1, sizeof(rectangle_t));
-	game->canvas->width = WIDTH;
-	game->canvas->height = HEIGHT;
-	game->canvas->img = canvas_img;
-	game->img = calloc(1, sizeof(rectangle_t));
-	game->img->width = I_WIDTH;
-	game->img->height = I_HEIGHT;
-	game->img->img = img;
+	(*game) = calloc(1, sizeof(game_t));
+	(*game)->mlx = mlx;
+	(*game)->canvas = calloc(1, sizeof(rectangle_t));
+	(*game)->canvas->width = WIDTH;
+	(*game)->canvas->height = HEIGHT;
+	(*game)->canvas->img = canvas_img;
+	//(*game)->canvas->color = (color_t){0, 0, 0, 0};
+	(*game)->canvas->color = (color_t){0x00, 0x00, 0x00, 0x7f};
+	//color_i = get_rgba(rtg->color.red, rtg->color.green, rtg->color.blue, rtg->color.alpha);
+	ft_put_pixels_rectangle((*game)->canvas);
+	(*game)->img = calloc(1, sizeof(rectangle_t));
+	(*game)->img->width = I_WIDTH;
+	(*game)->img->height = I_HEIGHT;
+	(*game)->img->img = img;
+	//(*game)->img->color = (color_t){42, 42, 42, 127};
+	//(*game)->img->color = (color_t){0xff, 0xff, 0xff, 0xff};
+	(*game)->img->color = (color_t){0x8f, 0xd3, 0xca, 0xff};
+	ft_put_pixels_rectangle((*game)->img);
 	/*rtg->width = 0;
 	rtg->height = 0;
 	rtg->x = 0;
@@ -91,13 +123,10 @@ int	ft_initialize_struct(game_t *game)
 
 //Delete duplicities, delete hardcoding & add refresh screen function
 
-void	ft_paint_rectangle(rectangle_t *rtg)
+void	ft_paint_rectangle(rectangle_t *rtg, mlx_t *mlx, int x, int y)
 {
-	int	x2;
-	int	y2;
-	int	color_i;
-
-	rtg->x = 0;
+	// Deprecated code for if
+	/*rtg->x = 0;
 	rtg->y = 0;
 	if (rtg->width == 0)
 		rtg->width = 20;
@@ -115,27 +144,15 @@ void	ft_paint_rectangle(rectangle_t *rtg)
 	if (rtg->color.blue == 0)
 		rtg->color.blue = 74;
 	if (rtg->color.alpha == 0)
-		rtg->color.alpha = 127;
-	color_i = get_rgba(rtg->color.red, rtg->color.green, rtg->color.blue, rtg->color.alpha);
-	y2 = pos.y;
-	while (y2 < rtg->height + pos.y)
-	{
-		x2 = pos.x;
-		while (x2 < rtg->width + pos.x)
-		{
-			// ft_paint_pixel(x2, y2, color_i);
-			//ft_paint_pixel(x2, y2, (color_t *){100, 100, 100, 127});
-			mlx_put_pixel(rtg->img, x2, y2, color_i);
-			x2++;
-		}
-		y2++;
-	}
+		rtg->color.alpha = 127;*/
+	//color_i = get_rgba(rtg->color.red, rtg->color.green, rtg->color.blue, rtg->color.alpha);
+	mlx_image_to_window(mlx, rtg->img, x, y);
 }
 
 /**
  * This function does the refresh screen, repaiting everything in the image to black
  */
-void	ft_refresh_screen(rectangle_t *rtg)
+void	ft_refresh_screen(rectangle_t *rtg, mlx_t *mlx)
 {
 /*	rtg->width = WIDTH;
 	rtg->height = HEIGHT;
@@ -143,12 +160,12 @@ void	ft_refresh_screen(rectangle_t *rtg)
 	rtg->color.green = 0;
 	rtg->color.blue = 0;
 	rtg->color.alpha = 127;*/
-	ft_paint_rectangle(rtg);
+	ft_paint_rectangle(rtg, mlx, 0, 0);
 }
 
-void	ft_paint(rectangle_t *img)
+void	ft_paint(rectangle_t *img, mlx_t *mlx)
 {
-	ft_paint_rectangle(img);
+	ft_paint_rectangle(img, mlx, pos.x, pos.y);
 }
 
 /**
@@ -158,8 +175,8 @@ void	ft_render(void* param)
 {
 	rectangle_t *canvas = ((game_t *)param)->canvas;
 	rectangle_t *img = ((game_t *)param)->img;
-	ft_refresh_screen(canvas);
-	ft_paint(img);
+	ft_refresh_screen(canvas, ((game_t *)param)->mlx);
+	ft_paint(img, ((game_t *)param)->mlx);
 //	ft_paint_rectangle(&rtg);
 }
 
@@ -246,7 +263,7 @@ int32_t	main(void)
 	// mlx_set_setting(MLX_HEADLESS, true);
 	// mlx_set_setting(MLX_FULLSCREEN, true);
 //	mlx_create_buffers(mlx);
-	if (ft_initialize_struct(game))
+	if (ft_initialize_struct(&game))
 		return (EXIT_FAILURE);
 	//mlx_key_hook(mlx, &my_keyhook, &rtg);
 	mlx_key_hook(game->mlx, &my_keyhook, game);
