@@ -200,7 +200,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
 		// printf("Checking limits %d\n", pos.x);
-		if (pos.x > WIDTH - game->canvas->width - 1)
+		if (game->img->x > WIDTH - game->canvas->width - 1)
 		{
 			// printf("Error\n");
 			// printf("%d\n", rtg.width);
@@ -212,33 +212,39 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 //		mlx_delete_image(mlx, img);
 //		ft_refresh_screen(&rtg);
 //		ft_paint_rectangle(&rtg);
-		pos.x += 10;
+//		pos.x += 10;
+		game->img->x += 10;
 //		ft_paint_rectangle(&rtg);
-		printf("%d\n", pos.x);
+		//printf("%d\n", pos.x);
+		printf("%d\n", game->img->x);
 	}
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (pos.y > HEIGHT - game->canvas->height - 10)
+		if (game->img->y > HEIGHT - game->canvas->height - 10)
 			return ;
 //		mlx_delete_image(mlx, img);
-		pos.y += 10;
+//		pos.y += 10;
+		game->img->y += 10;
 //		ft_paint_rectangle(&rtg);
-		printf("%d\n", pos.y);
+//		printf("%d\n", pos.y);
+		printf("%d\n", game->img->y);
 	}
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (pos.x < 10)
+		if (game->img->x < 10)
 			return ;
 //		mlx_delete_image(mlx, img);
-		pos.x -= 10;
+		//pos.x -= 10;
+		game->img->x -= 10;
 //		ft_paint_rectangle(&rtg);
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		if (pos.y < 10)
+		if (game->img->y < 10)
 			return ;
 //		mlx_delete_image(mlx, img);
-		pos.y -= 10;
+//		pos.y -= 10;
+		game->img->y -= 10;
 //		ft_paint_rectangle(&rtg);
 	}
 	//puts(D);
