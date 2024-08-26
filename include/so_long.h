@@ -19,10 +19,10 @@
 
 typedef struct color
 {
-	int8_t	red;
-	int8_t	green;
-	int8_t	blue;
-	int8_t	alpha;
+	uint8_t	red;
+	uint8_t	green;
+	uint8_t	blue;
+	uint8_t	alpha;
 }	color_t;
 
 /**
