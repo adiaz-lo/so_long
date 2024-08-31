@@ -25,6 +25,13 @@ typedef struct color
 	uint8_t	alpha;
 }	color_t;
 
+
+typedef struct background
+{
+	int32_t	size[2]; //Width & height array
+	color_t	color;	//Background color
+}	background_t;
+
 /**
  * Struct to define a rectangle
  *
@@ -32,12 +39,11 @@ typedef struct color
  */
 typedef	struct	rectangle
 {
-	int32_t	width;
-	int32_t	height;
+	int32_t	size[2]; //Width & height array
 	int32_t	x;
 	int32_t	y;
 	color_t	color;
-	mlx_image_t	*img;
+	mlx_image_t	*img; //Rectangle itself as image to use it in the program
 }	rectangle_t;
 
 /**

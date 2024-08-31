@@ -47,10 +47,10 @@ void	ft_put_pixels_rectangle(rectangle_t *rtg)
 	int	y;
 
 	y = 0;
-	while (y < rtg->height)
+	while (y < rtg->size[1])
 	{
 		x = 0;
-		while (x < rtg->width)
+		while (x < rtg->size[0])
 		{
 			// ft_paint_pixel(x2, y2, color_i);
 			//ft_paint_pixel(x2, y2, (color_t *){100, 100, 100, 127});
@@ -82,28 +82,28 @@ int	ft_initialize_struct(game_t **game)
 	(*game) = calloc(1, sizeof(game_t));
 	(*game)->mlx = mlx;
 	(*game)->canvas = calloc(1, sizeof(rectangle_t));
-	(*game)->canvas->width = WIDTH;
-	(*game)->canvas->height = HEIGHT;
+	(*game)->canvas->size[0] = WIDTH;
+	(*game)->canvas->size[1] = HEIGHT;
 	(*game)->canvas->img = canvas_img;
 	//(*game)->canvas->color = (color_t){0, 0, 0, 0};
 	(*game)->canvas->color = (color_t){0, 0, 0, 255};
-	(*game)->canvas->color.red = 0;
+/*	(*game)->canvas->color.red = 0;
 	(*game)->canvas->color.green = 0;
 	(*game)->canvas->color.blue = 0;
-	(*game)->canvas->color.alpha = 255;
+	(*game)->canvas->color.alpha = 255;*/
 	//color_i = get_rgba(rtg->color.red, rtg->color.green, rtg->color.blue, rtg->color.alpha);
 	ft_put_pixels_rectangle((*game)->canvas);
 	(*game)->img = calloc(1, sizeof(rectangle_t));
-	(*game)->img->width = I_WIDTH;
-	(*game)->img->height = I_HEIGHT;
+	(*game)->img->size[0]= I_WIDTH;
+	(*game)->img->size[1] = I_HEIGHT;
 	(*game)->img->img = img;
 	//(*game)->img->color = (color_t){42, 42, 42, 127};
 	//(*game)->img->color = (color_t){0xff, 0xff, 0xff, 0xff};
 	(*game)->img->color = (color_t){0x8f, 0xd3, 0xca, 0xff};
-	(*game)->img->color.red = 255;
+/*	(*game)->img->color.red = 255;
 	(*game)->img->color.green = 0;
 	(*game)->img->color.blue = 0;
-	(*game)->img->color.alpha = 255;
+	(*game)->img->color.alpha = 255;*/
 	ft_put_pixels_rectangle((*game)->img);
 	/*rtg->width = 0;
 	rtg->height = 0;
@@ -173,8 +173,8 @@ void	ft_refresh_screen(rectangle_t *rtg, mlx_t *mlx)
 
 void	ft_paint(rectangle_t *img, mlx_t *mlx, game_t *game)
 {
-	printf("x coordinate value: %d\n", game->img->x);
-	printf("y coordinate value: %d\n", game->img->y);
+//	printf("x coordinate value: %d\n", game->img->x);
+//	printf("y coordinate value: %d\n", game->img->y);
 	ft_paint_rectangle(img, mlx, game->img->x, game->img->y);
 }
 
@@ -190,6 +190,7 @@ void	ft_render(void* param)
 
 	ft_paint(img, ((game_t *)param)->mlx, game);
 	ft_refresh_screen(canvas, ((game_t *)param)->mlx);
+	usleep(50000);
 //	ft_paint_rectangle(&rtg);
 }
 
@@ -213,7 +214,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
 		// printf("Checking limits %d\n", pos.x);
-		if (game->img->x > (game->canvas->width - game->img->width) - 10)
+		if (game->img->x > (game->canvas->size[0] - game->img->size[0]) - 10)
 		{
 			// printf("Error\n");
 			// printf("%d\n", rtg.width);
@@ -231,12 +232,12 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 //		ft_paint_rectangle(&rtg);
 		//printf("%d\n", pos.x);
 		printf("x coordinate value: %d\n", game->img->x);
-		printf("Canvas Width: %d\n", game->canvas->width);
-		printf("Image Width: %d\n", game->img->width);
+		printf("Canvas Width: %d\n", game->canvas->size[0]);
+		printf("Image Width: %d\n", game->img->size[0]);
 	}
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{	
-		if (game->img->y > (game->canvas->height - game->img->height) - 10)
+	{
+		if (game->img->y > (game->canvas->size[1] - game->img->size[1]) - 10)
 			return ;
 //		mlx_delete_image(mlx, img);
 //		pos.y += 10;
