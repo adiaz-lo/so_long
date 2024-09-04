@@ -298,5 +298,8 @@ int32_t	main(void)
 	mlx_loop(game->mlx);
 //	mlx_loop_hook(mlx, &ft_render, &rtg);
 	mlx_terminate(game->mlx);
+	free(game->canvas);
+	free(game->img);
+	free(game);
 	return (EXIT_SUCCESS);
 }
