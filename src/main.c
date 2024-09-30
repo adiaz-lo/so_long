@@ -1,131 +1,98 @@
 #include "includes/so_long.h"
 #include "includes/player.h"
 
-t_player	*init_player(mlx_t *mlx)
+t_player	*init_player(t_mlx_player *mlx_player)
 {
-	t_player	*player;
-
-	player = malloc(sizeof(t_player));
-	player->x = 0;
-	player->y = 0;
-	player->texture = mlx_load_png("tuxy.png");
-	player->image_tuxy = mlx_texture_to_image(mlx, player->texture);
-	return (player);
+	mlx_player->player = malloc(sizeof(t_player));
+	mlx_player->player->x = 0;
+	mlx_player->player->y = 0;
+	mlx_player->player->texture = mlx_load_png("tuxy.png");
+	mlx_player->player->image_tuxy = mlx_texture_to_image(mlx_player->mlx, mlx_player->player->texture);
+	return (mlx_player->player);
 }
 
-void	move_player_right(t_player *player)
+void	destroy_player(t_mlx_player *mlx_player)
 {
-	player->x += 10;
-
+	mlx_delete_image(mlx_player->mlx, mlx_player->player->image_tuxy);
+	mlx_delete_texture(mlx_player->player->texture);
+	free(mlx_player->player);
+	//free(mlx_player);
 }
 
-void	move_player_left(t_player *player)
+void	move_player_right(t_mlx_player *mlx_player)
 {
-	player->x -= 10;
-
+	mlx_player->player->x += 10;
+	destroy_player(mlx_player);
 }
 
-void	move_player_down(t_player *player)
+void	move_player_left(t_mlx_player *mlx_player)
 {
-	player->y += 10;
-
+	mlx_player->player->x -= 10;
+	destroy_player(mlx_player);
 }
 
-void	move_player_up(t_player *player)
+void	move_player_down(t_mlx_player *mlx_player)
 {
-	player->y -= 10;
+	mlx_player->player->y += 10;
+	destroy_player(mlx_player);
+}
 
+void	move_player_up(t_mlx_player *mlx_player)
+{
+	mlx_player->player->y -= 10;
+	destroy_player(mlx_player);
 }
 
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
-	//game_t *game = (game_t *)param;
+	printf("Testing the intuition\n");
+	t_mlx_player *mlx_player = (t_mlx_player *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		mlx_close_window(mlx);
-	// If we PRESS the 'D' key, move the player 10 pxl to the right
+		mlx_close_window(mlx_player->mlx);
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (player->image_tuxy > (player-> - game->img->size[0]) - 10)
-		{
-			// printf("Error\n");
-			// printf("%d\n", rtg.width);
-			// printf("%d\n", WIDTH - rtg.width);
-			// printf("%p\n", &rtg);
-//			ft_refresh_screen(&rtg);
+		if ((mlx_player->player->x + mlx_player->player->image_tuxy->width) > mlx_player->mlx->width)
 			return ;
-		}
-//		mlx_delete_image(mlx, img);
-//		ft_refresh_screen(&rtg);
-//		ft_paint_rectangle(&rtg);
-//		pos.x += 10;
-		game->img->x += 10;
-		//game->img->img->instances[0].x += 10;
-//		ft_paint_rectangle(&rtg);
-		//printf("%d\n", pos.x);
-		printf("x coordinate value: %d\n", game->img->x);
-		printf("Canvas Width: %d\n", game->canvas->size[0]);
-		printf("Image Width: %d\n", game->img->size[0]);
+		move_player_right(mlx_player);
+		printf("x coordinate value: %d\n", mlx_player->player->x);
+		printf("Canvas Width: %d\n", mlx_player->player->x);
+		printf("Image Width: %d\n", mlx_player->player->x);
 	}
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		if (game->img->y > (game->canvas->size[1] - game->img->size[1]) - 10)
+		if ((mlx_player->player->y + mlx_player->player->image_tuxy->height) > mlx_player->mlx->height)
 			return ;
-//		mlx_delete_image(mlx, img);
-//		pos.y += 10;
-		game->img->y += 10;
-//		ft_paint_rectangle(&rtg);
-//		printf("%d\n", pos.y);
-		printf("%d\n", game->img->y);
+		move_player_down(mlx_player);
+		printf("%d\n", mlx_player->player->y);
 	}
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (game->img->x < 10)
+		if (mlx_player->player->x)
 			return ;
-//		mlx_delete_image(mlx, img);
-		//pos.x -= 10;
-		game->img->x -= 10;
-//		ft_paint_rectangle(&rtg);
+		move_player_left(mlx_player);
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		if (game->img->y < 10)
+		if (mlx_player->player->y)
 			return ;
-//		mlx_delete_image(mlx, img);
-//		pos.y -= 10;
-		game->img->y -= 10;
-//		ft_paint_rectangle(&rtg);
+		move_player_up(mlx_player);
 	}
-	//puts(D);
-
-	/*	// If we RELEASE the 'K' key, print "World".
-		if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
-		puts("World");
-
-	// If we HOLD the 'L' key, print "!".
-	if (keydata.key == MLX_KEY_L && keydata.action == MLX_REPEAT)
-	puts("!");*/
-}
-
-void	destroy_player(t_player *player, mlx_t *mlx)
-{
-	mlx_delete_image(mlx, player->image_tuxy);
-	mlx_delete_texture(player->texture);
-	free(player);
 }
 
 int32_t	main(void)
 {
-	t_player *player;
 	t_mlx_player *mlx_player;
 	
-	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", true);
-	player = init_player(mlx);
-	mlx_image_to_window(mlx, player->image_tuxy, player->x, player->y);
-	mlx_key_hook(player, &my_keyhook, game);
+	mlx_player = malloc(sizeof(t_mlx_player));
+	mlx_player->mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", true);
+	mlx_player->player = init_player(mlx_player);
 
-	mlx_loop(mlx);
-	destroy_player(player, mlx);
-	mlx_terminate(mlx);
+	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
+	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
+
+	mlx_loop(mlx_player->mlx);
+	destroy_player(mlx_player);
+	mlx_terminate(mlx_player->mlx);
 
 	return(0);
 }
