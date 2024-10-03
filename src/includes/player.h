@@ -1,6 +1,14 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+typedef struct s_map
+{
+    int32_t         x;
+    int32_t         y;
+    mlx_texture_t   *texture;
+    mlx_image_t     *image_floor;
+}   t_map;
+
 typedef struct s_player
 {
     int32_t         x;
@@ -13,6 +21,7 @@ typedef struct s_player
 typedef struct mlx_player
 {
     t_player    *player;
+    t_map      *map;
     mlx_t       *mlx;
 }   t_mlx_player;
 
