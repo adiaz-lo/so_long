@@ -11,7 +11,7 @@
 
 #define WIDTH 1000
 #define HEIGHT 1000
-#define FLOOR_WIDTH 64
-#define FLOOR_HEIGHT 64
+#define TILE_WIDTH 64
+#define TILE_HEIGHT 64
 
 #endif

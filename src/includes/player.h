@@ -5,8 +5,10 @@ typedef struct s_map
 {
     int32_t         x;
     int32_t         y;
-    mlx_texture_t   *texture;
+    mlx_texture_t   *texture_floor;
     mlx_image_t     *image_floor;
+    mlx_texture_t   *texture_wall;
+    mlx_image_t     *image_wall;
 }   t_map;
 
 typedef struct s_player
