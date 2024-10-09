@@ -1,3 +1,6 @@
 [submodule "lib/MLX42"]
 	path = lib/MLX42
 	url = git@github.com:codam-coding-college/MLX42.git
+[submodule "src/GNL"]
+	path = src/GNL
+	url = https://github.com/adiaz-lo/GNL

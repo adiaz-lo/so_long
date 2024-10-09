@@ -1,0 +1,7 @@
+- Comprobaciones de errores mapa:
+Hay 1 salida && 1 personaje
+>= 1 coleccionable
+Rodeado de muro el mapa (1)
+Mapa rectangular (columnas y filas tienen el mismo número de posiciones)
+- Comprobación mapa válido:
+Camino válido

@@ -18,7 +18,7 @@ t_map	*init_map(t_mlx_player *mlx_player)
 	mlx_player->map->y = 0;
 	mlx_player->map->texture_floor = mlx_load_png("floor.png");
 	mlx_player->map->image_floor = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_floor);
-	mlx_player->map->texture_wall = mlx_load_png("wall_resized.png");
+	mlx_player->map->texture_wall = mlx_load_png("wall_final.png");
 	mlx_player->map->image_wall = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_wall);
 	return (mlx_player->map);
 }
@@ -48,9 +48,9 @@ void	paint_map(int *map, t_mlx_player *mlx_player, int length)
 		index = 0;
 		while (index < length)
 		{
-			if(map[index] == 1)
+			if(map[index] == 0)
 				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x + (index * TILE_WIDTH), mlx_player->map->y + (row * TILE_HEIGHT));
-			else if (map[index] == 0)
+			else if (map[index] == 1)
 				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_wall, mlx_player->map->x + (index * TILE_WIDTH), mlx_player->map->y + (row * TILE_HEIGHT));
 	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_HEIGHT), __FILE__, __LINE__);
 			if (mlx_player->player->image_tuxy->instances[17].x > 120)
