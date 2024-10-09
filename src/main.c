@@ -53,12 +53,21 @@ void	paint_map(int *map, t_mlx_player *mlx_player, int length)
 			else if (map[index] == 0)
 				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_wall, mlx_player->map->x + (index * TILE_WIDTH), mlx_player->map->y + (row * TILE_HEIGHT));
 	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_HEIGHT), __FILE__, __LINE__);
+			if (mlx_player->player->image_tuxy->instances[17].x > 120)
+			{
+				printf("Hola tuxy invisible %s %i\n", __FILE__, __LINE__);
+				mlx_set_instance_depth(mlx_player->player->image_tuxy->instances, 0);
+			}
 			index++;
 		}
 	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_HEIGHT), __FILE__, __LINE__);
 //	printf("Value of row is: %i ---------- %s:%i\n", row, __FILE__, __LINE__);
 		row++;
 	}
+}
+void	swap_layers(t_mlx_player *mlx_player)
+{
+	mlx_set_instance_depth(mlx_player->player->image_tuxy->instances, 17);
 }
 
 void	move_player_right(t_mlx_player *mlx_player)
@@ -131,10 +140,12 @@ int32_t	main(void)
 	mlx_player->map = init_map(mlx_player);
 
 	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
+//	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x, mlx_player->map->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 	paint_map(map, mlx_player, length);
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
+	swap_layers(mlx_player);
 
 	mlx_loop(mlx_player->mlx);
 	destroy_player(mlx_player);
