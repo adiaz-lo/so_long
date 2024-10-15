@@ -1,5 +1,9 @@
 #ifndef SO_LONG_H
-#define SO_LONG_H
+#   define SO_LONG_H
+
+# ifndef BUFFER_SIZE
+#   define BUFFER_SIZE 10000000
+# endif
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -9,9 +13,20 @@
 #include "player.h"
 #include "map.h"
 
-#define WIDTH 1000
-#define HEIGHT 1000
-#define TILE_WIDTH 64
-#define TILE_HEIGHT 64
+
+
+
+# ifndef WIDTH
+#   define WIDTH 1000
+# endif
+# ifndef HEIGHT
+    #define HEIGHT 1000
+# endif
+# ifndef TILE_WIDTH
+    #define TILE_WIDTH 64
+# endif
+# ifndef TILE_HEIGHT
+    #define TILE_HEIGHT 64
+# endif
 
 #endif

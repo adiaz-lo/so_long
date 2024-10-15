@@ -4,3 +4,6 @@
 [submodule "src/GNL"]
 	path = src/GNL
 	url = https://github.com/adiaz-lo/GNL
+[submodule "src/src/Libft"]
+	path = src/src/Libft
+	url = git@github.com:adiaz-lo/Libft.git
