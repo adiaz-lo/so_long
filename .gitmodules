@@ -7,3 +7,6 @@
 [submodule "src/src/Libft"]
 	path = src/src/Libft
 	url = git@github.com:adiaz-lo/Libft.git
+[submodule "src/Libft"]
+	path = src/Libft
+	url = git@github.com:adiaz-lo/Libft.git

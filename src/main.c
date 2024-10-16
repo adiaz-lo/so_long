@@ -132,6 +132,7 @@ int32_t	main(void)
 {
 	t_mlx_player	*mlx_player;
 	int		map[] = {1, 0, 1, 1, 0, 1, 0, 1};
+	int		map_fd;
 
 	int length = 8;
 	mlx_player = malloc(sizeof(t_mlx_player));
@@ -143,6 +144,10 @@ int32_t	main(void)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x, mlx_player->map->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
+//	open_map(map_fd);
+	map_fd = open(minimap.ber, O_RDONLY);
+	read_map(map_fd);
+	close(map_fd);
 	paint_map(map, mlx_player, length);
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
 	swap_layers(mlx_player);
