@@ -5,15 +5,15 @@
 #   define BUFFER_SIZE 10000000
 # endif
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
-#include "../lib/MLX42/include/MLX42/MLX42.h"
-#include "player.h"
-#include "map.h"
-
-
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <ctype.h>
+# include "../lib/MLX42/include/MLX42/MLX42.h"
+# include "player.h"
+# include "map.h"
+# include "../Libft/includes/libft.h"
+# include "../Libft/includes/get_next_line.h"
 
 
 # ifndef WIDTH

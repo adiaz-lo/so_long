@@ -36,6 +36,15 @@ void	destroy_player(t_mlx_player *mlx_player)
 	//free(mlx_player);
 }
 
+void	read_map(int map_fd)
+{
+	int	rows;
+
+
+	while (get_next_line(map_fd))
+		rows++;
+}
+
 void	paint_map(int *map, t_mlx_player *mlx_player, int length)
 {
 	int	index;
@@ -145,15 +154,15 @@ int32_t	main(void)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x, mlx_player->map->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 //	open_map(map_fd);
-	map_fd = open(minimap.ber, O_RDONLY);
+	map_fd = open("minimap.ber", O_RDONLY);
 	read_map(map_fd);
-	close(map_fd);
 	paint_map(map, mlx_player, length);
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
 	swap_layers(mlx_player);
 
 	mlx_loop(mlx_player->mlx);
 	destroy_player(mlx_player);
+	close(map_fd);
 	free(mlx_player->player);
 	mlx_terminate(mlx_player->mlx);
 
