@@ -3,8 +3,8 @@
 
 typedef struct s_map
 {
-    int32_t         x;
-    int32_t         y;
+    uint32_t         x;
+    uint32_t         y;
     mlx_texture_t   *texture_floor;
     mlx_image_t     *image_floor;
     mlx_texture_t   *texture_wall;
@@ -13,9 +13,9 @@ typedef struct s_map
 
 typedef struct s_player
 {
-    int32_t         x;
-    int32_t         y;
-    int32_t         speed;
+    uint32_t         x;
+    uint32_t         y;
+    uint32_t         speed;
     mlx_texture_t   *texture;
     mlx_image_t     *image_tuxy;
 }       t_player;

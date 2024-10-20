@@ -38,11 +38,26 @@ void	destroy_player(t_mlx_player *mlx_player)
 
 void	read_map(int map_fd)
 {
-	int	rows;
+	int		rows;
+	char	**map;
 
-
-	while (get_next_line(map_fd))
+	rows = 0;
+	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
+	//ft_printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
+	map = malloc(sizeof(char *));
+	if (map == NULL)
+		return ;
+//		return (NULL);
+	//printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
+	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
+	while (*map)
+	{
+		printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
+		*map = get_next_line(map_fd);
 		rows++;
+		//free(*map);
+		//map++;
+	}
 }
 
 void	paint_map(int *map, t_mlx_player *mlx_player, int length)
@@ -155,6 +170,9 @@ int32_t	main(void)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 //	open_map(map_fd);
 	map_fd = open("minimap.ber", O_RDONLY);
+	if (map_fd == -1)
+		return (1);
+	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
 	read_map(map_fd);
 	paint_map(map, mlx_player, length);
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
@@ -162,9 +180,9 @@ int32_t	main(void)
 
 	mlx_loop(mlx_player->mlx);
 	destroy_player(mlx_player);
-	close(map_fd);
 	free(mlx_player->player);
 	mlx_terminate(mlx_player->mlx);
+	close(map_fd);
 
 	return(0);
 }
