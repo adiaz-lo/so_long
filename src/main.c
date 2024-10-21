@@ -1,5 +1,6 @@
 #include "includes/so_long.h"
 #include "includes/player.h"
+#include <readline/readline.h>
 
 t_player	*init_player(t_mlx_player *mlx_player)
 {
@@ -39,23 +40,20 @@ void	destroy_player(t_mlx_player *mlx_player)
 void	read_map(int map_fd)
 {
 	int		rows;
-	char	**map;
+	char	*map;
 
 	rows = 0;
 	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 	//ft_printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-	map = malloc(sizeof(char *));
-	if (map == NULL)
-		return ;
 //		return (NULL);
 	//printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-	while (*map)
+	while (map)
 	{
 		printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-		*map = get_next_line(map_fd);
+		map = get_next_line(map_fd);
 		rows++;
-		//free(*map);
+		free(map);
 		//map++;
 	}
 }
@@ -169,7 +167,8 @@ int32_t	main(void)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x, mlx_player->map->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 //	open_map(map_fd);
-	map_fd = open("minimap.ber", O_RDONLY);
+	//map_fd = open("minimap.ber", O_RDONLY);
+	map_fd = open("micromap.ber", O_RDONLY);
 	if (map_fd == -1)
 		return (1);
 	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
