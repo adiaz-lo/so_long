@@ -14,10 +14,13 @@ t_player	*init_player(t_mlx_player *mlx_player)
 
 t_map	*init_map(t_mlx_player *mlx_player)
 {
+	int lines
+
+
 	mlx_player->map = malloc(sizeof(t_map));
 	mlx_player->map->x = 0;
 	mlx_player->map->y = 0;
-	mlx_player->map->map = malloc(sizeof(char *));
+	mlx_player->map->map = malloc(lines  * sizeof(char *) + 1);
 	mlx_player->map->texture_floor = mlx_load_png("floor.png");
 	mlx_player->map->image_floor = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_floor);
 	mlx_player->map->texture_wall = mlx_load_png("wall_final.png");
@@ -45,7 +48,7 @@ void	malloc_map(int length, t_mlx_player *mlx_player)
 	i = 0;
 	while (i < length)
 	{
-		mlx_player->map->map[i] = malloc(sizeof(char *));
+		mlx_player->map->map[i] = malloc(sizeof(char *) + 1);
 	}
 }
 
@@ -63,10 +66,12 @@ void	read_map(int map_fd, char **map)
 	{
 		printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 		*map = get_next_line(map_fd);
+		printf("Debugging Map Reading ---------- %s %s:%i\n", *map, __FILE__, __LINE__);
 		rows++;
 		//free(map);
 		map++;
 	}
+	*map = NULL;
 }
 
 void	paint_map(t_mlx_player *mlx_player)
@@ -76,7 +81,6 @@ void	paint_map(t_mlx_player *mlx_player)
 	int	length;
 
 	row = 0;
-	printf("Debugging map painting is: %i ---------- %s:%i\n", length, __FILE__, __LINE__);
 	length = ft_strlen(*(mlx_player->map->map));
 	malloc_map(length, mlx_player);
 	printf("Debugging value of length is: %i ---------- %s:%i\n", length, __FILE__, __LINE__);
