@@ -5,6 +5,7 @@ typedef struct s_map
 {
     uint32_t         x;
     uint32_t         y;
+    char		**map;
     mlx_texture_t   *texture_floor;
     mlx_image_t     *image_floor;
     mlx_texture_t   *texture_wall;
