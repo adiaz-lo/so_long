@@ -14,7 +14,7 @@ t_player	*init_player(t_mlx_player *mlx_player)
 
 t_map	*init_map(t_mlx_player *mlx_player)
 {
-	int lines
+	int lines;
 
 
 	mlx_player->map = malloc(sizeof(t_map));
@@ -41,22 +41,54 @@ void	destroy_player(t_mlx_player *mlx_player)
 	//free(mlx_player);
 }
 
-void	malloc_map(int length, t_mlx_player *mlx_player)
+void	malloc_map(int length, int rows, t_mlx_player *mlx_player)
 {
 	int	i;
 	
 	i = 0;
-	while (i < length)
+	while (i < rows)
 	{
-		mlx_player->map->map[i] = malloc(sizeof(char *) + 1);
+		mlx_player->map->map[i] = malloc((length * sizeof(char)) + 1);
+		i++;
 	}
 }
 
-void	read_map(int map_fd, char **map)
+int	read_map(char **map)
 {
 	int		rows;
-
-	rows = 0;
+	int		map_fd;
+	char	*line;
+	int		char_nu;
+	int	length;
+	
+	map_fd = open("minimap.ber", O_RDONLY);
+	if (map_fd == -1)
+		return (1);
+	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
+	line = get_next_line(map_fd);
+	length = ft_strlen(*(mlx_player->map->map));
+	malloc_map(length, 15, mlx_player);
+	while (line)
+	{
+		get_next_line(map_fd);
+		rows++;
+	}
+	close(map_fd);
+	map = malloc((rows * sizeof(char *)) + 1);
+	map_fd = open("minimap.ber", O_RDONLY);
+	if (map_fd == -1)
+		return (1);
+	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
+	line = get_next_line(map_fd);
+	char_nu = 0;
+	while (line)
+	{
+		map[rows][char_nu];
+		get_next_line(map_fd);
+		char_nu++;
+	}
+	close(map_fd);
+	
 	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 	//ft_printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 //		return (NULL);
@@ -72,19 +104,20 @@ void	read_map(int map_fd, char **map)
 		map++;
 	}
 	*map = NULL;
+	return (rows);
 }
 
 void	paint_map(t_mlx_player *mlx_player)
 {
 	int	index;
 	int	row;
-	int	length;
+	//int	length;
 
 	row = 0;
 	length = ft_strlen(*(mlx_player->map->map));
-	malloc_map(length, mlx_player);
+//	malloc_map(length, 15, mlx_player);
 	printf("Debugging value of length is: %i ---------- %s:%i\n", length, __FILE__, __LINE__);
-	/*while (row < 2)
+	while (row < 2)
 	{
 		index = 0;
 		while (index < length)
@@ -105,7 +138,7 @@ void	paint_map(t_mlx_player *mlx_player)
 	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_HEIGHT), __FILE__, __LINE__);
 //	printf("Value of row is: %i ---------- %s:%i\n", row, __FILE__, __LINE__);
 		row++;
-	}*/
+	}
 }
 void	swap_layers(t_mlx_player *mlx_player)
 {
@@ -175,6 +208,7 @@ int32_t	main(void)
 	t_mlx_player	*mlx_player;
 	//int		map[] = {1, 0, 1, 1, 0, 1, 0, 1};
 	int		map_fd;
+	int i, j;
 
 //	int length = 8;
 	mlx_player = malloc(sizeof(t_mlx_player));
@@ -188,12 +222,23 @@ int32_t	main(void)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 //	open_map(map_fd);
 	//map_fd = open("minimap.ber", O_RDONLY);
-	map_fd = open("minimap.ber", O_RDONLY);
-	if (map_fd == -1)
-		return (1);
-	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
-	read_map(map_fd, mlx_player->map->map);
+	read_map(mlx_player->map->map);
+	if (mlx_player->map->map == NULL)
+		return (printf("Could not read map\n"));
+	i = 0;
+	while (mlx_player->map->map[i])
+	{
+		j = 0;
+		while (mlx_player->map->map[i][j])
+		{
+			printf("%c", mlx_player->map->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
 	paint_map(mlx_player);
+	
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
 	swap_layers(mlx_player);
 
