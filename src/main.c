@@ -48,33 +48,34 @@ void	malloc_map(int length, int rows, t_mlx_player *mlx_player)
 	i = 0;
 	while (i < rows)
 	{
-		mlx_player->map->map[i] = malloc((length * sizeof(char)) + 1);
+		mlx_player->map->map[i] = malloc(((length + 1) * sizeof(char)));
 		i++;
 	}
 }
 
-int	read_map(char **map)
+int	read_map(t_mlx_player *mlx_player)
 {
 	int		rows;
 	int		map_fd;
 	char	*line;
 	int		char_nu;
-	int	length;
+	int		length;
 	
 	map_fd = open("minimap.ber", O_RDONLY);
 	if (map_fd == -1)
 		return (1);
 	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
 	line = get_next_line(map_fd);
-	length = ft_strlen(*(mlx_player->map->map));
-	malloc_map(length, 15, mlx_player);
+	//length = ft_strlen(*(mlx_player->map->map));
+	length = ft_strlen(line);
+	malloc_map(length, 42, mlx_player);
 	while (line)
 	{
-		get_next_line(map_fd);
+		line = get_next_line(map_fd);
 		rows++;
 	}
 	close(map_fd);
-	map = malloc((rows * sizeof(char *)) + 1);
+	mlx_player->map->map = malloc((rows + 1) * sizeof(char *));
 	map_fd = open("minimap.ber", O_RDONLY);
 	if (map_fd == -1)
 		return (1);
@@ -83,7 +84,7 @@ int	read_map(char **map)
 	char_nu = 0;
 	while (line)
 	{
-		map[rows][char_nu];
+		mlx_player->map->map[rows][char_nu];
 		get_next_line(map_fd);
 		char_nu++;
 	}
@@ -94,16 +95,16 @@ int	read_map(char **map)
 //		return (NULL);
 	//printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-	while (map && *map)
+	while (mlx_player->map->map && *(mlx_player->map->map))
 	{
 		printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-		*map = get_next_line(map_fd);
-		printf("Debugging Map Reading ---------- %s %s:%i\n", *map, __FILE__, __LINE__);
+		*(mlx_player->map->map) = get_next_line(map_fd);
+		printf("Debugging Map Reading ---------- %s %s:%i\n", *(mlx_player->map->map), __FILE__, __LINE__);
 		rows++;
 		//free(map);
-		map++;
+		mlx_player->map->map++;
 	}
-	*map = NULL;
+	*(mlx_player->map->map) = NULL;
 	return (rows);
 }
 
@@ -111,7 +112,7 @@ void	paint_map(t_mlx_player *mlx_player)
 {
 	int	index;
 	int	row;
-	//int	length;
+	int	length;
 
 	row = 0;
 	length = ft_strlen(*(mlx_player->map->map));
@@ -222,7 +223,7 @@ int32_t	main(void)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 //	open_map(map_fd);
 	//map_fd = open("minimap.ber", O_RDONLY);
-	read_map(mlx_player->map->map);
+	read_map(mlx_player);
 	if (mlx_player->map->map == NULL)
 		return (printf("Could not read map\n"));
 	i = 0;
