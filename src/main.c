@@ -2,6 +2,26 @@
 #include "includes/player.h"
 #include <readline/readline.h>
 
+char	*read_file(int map_fd)
+{
+	char	*map;
+	char	*aux;
+	char	*map_line;
+
+	map = NULL;
+	map_line = get_next_line(map_fd);
+	while (map_line)
+	{
+		aux = map;
+		map = ft_strjoin(map, map_line);
+		if (aux)
+			free(aux);
+		free(map_line);
+		map_line = get_next_line(map_fd);
+	}
+	return (map);
+}
+
 t_player	*init_player(t_mlx_player *mlx_player)
 {
 	mlx_player->player = malloc(sizeof(t_player));
@@ -12,15 +32,14 @@ t_player	*init_player(t_mlx_player *mlx_player)
 	return (mlx_player->player);
 }
 
-t_map	*init_map(t_mlx_player *mlx_player)
+t_map	*init_map(t_mlx_player *mlx_player, int map_fd)
 {
-	int lines;
-
-
-	mlx_player->map = malloc(sizeof(t_map));
+	mlx_player->map = malloc(1 * sizeof(t_map));
 	mlx_player->map->x = 0;
 	mlx_player->map->y = 0;
-	mlx_player->map->map = malloc(lines  * sizeof(char *) + 1);
+	/*mlx_player->map->map = malloc((lines + 1) * sizeof(char *));
+	mlx_player->map->map[lines] = NULL;*/
+	mlx_player->map->map = ft_split(read_file(map_fd), '\n');
 	mlx_player->map->texture_floor = mlx_load_png("floor.png");
 	mlx_player->map->image_floor = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_floor);
 	mlx_player->map->texture_wall = mlx_load_png("wall_final.png");
@@ -44,13 +63,27 @@ void	destroy_player(t_mlx_player *mlx_player)
 void	malloc_map(int length, int rows, t_mlx_player *mlx_player)
 {
 	int	i;
+	int	j;
 	
 	i = 0;
 	while (i < rows)
 	{
-		mlx_player->map->map[i] = malloc(((length + 1) * sizeof(char)));
+		j = 0;
+		while (j < length)
+		{
+			mlx_player->map->map[i] = malloc(((length + 1) * sizeof(char)));
+			j++;
+		}
 		i++;
 	}
+}
+
+void	check_map(t_mlx_player *mlx_player)
+{
+	int	length;
+
+	length = ft_strlen(*(mlx_player->map->map));
+	//while (length == )
 }
 
 int	read_map(t_mlx_player *mlx_player)
@@ -72,10 +105,10 @@ int	read_map(t_mlx_player *mlx_player)
 	while (line)
 	{
 		line = get_next_line(map_fd);
+		free(line);
 		rows++;
 	}
 	close(map_fd);
-	mlx_player->map->map = malloc((rows + 1) * sizeof(char *));
 	map_fd = open("minimap.ber", O_RDONLY);
 	if (map_fd == -1)
 		return (1);
@@ -84,8 +117,7 @@ int	read_map(t_mlx_player *mlx_player)
 	char_nu = 0;
 	while (line)
 	{
-		mlx_player->map->map[rows][char_nu];
-		get_next_line(map_fd);
+		mlx_player->map->map[rows] = get_next_line(map_fd);
 		char_nu++;
 	}
 	close(map_fd);
@@ -104,12 +136,13 @@ int	read_map(t_mlx_player *mlx_player)
 		//free(map);
 		mlx_player->map->map++;
 	}
-	*(mlx_player->map->map) = NULL;
+	//mlx_player->map->map[0] = NULL;
 	return (rows);
 }
 
 void	paint_map(t_mlx_player *mlx_player)
 {
+	//Rewrite the function to be variable given the map file
 	int	index;
 	int	row;
 	int	length;
@@ -206,16 +239,22 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 
 int32_t	main(void)
 {
-	t_mlx_player	*mlx_player;
+	t_mlx_player	*mlx_player; // It 
 	//int		map[] = {1, 0, 1, 1, 0, 1, 0, 1};
 	int		map_fd;
 	int i, j;
+	
+	map_fd = open("minimap.ber", O_RDONLY);
+	if (map_fd == -1)
+		return (1);
 
 //	int length = 8;
 	mlx_player = malloc(sizeof(t_mlx_player));
-	mlx_player->mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", true);
+	//ft_atoi(NULL);
+	mlx_player->mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
 	mlx_player->player = init_player(mlx_player);
-	mlx_player->map = init_map(mlx_player);
+	mlx_player->map = init_map(mlx_player, map_fd);
+	check_map(mlx_player);
 
 	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
@@ -223,7 +262,7 @@ int32_t	main(void)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 //	open_map(map_fd);
 	//map_fd = open("minimap.ber", O_RDONLY);
-	read_map(mlx_player);
+	//read_map(mlx_player);
 	if (mlx_player->map->map == NULL)
 		return (printf("Could not read map\n"));
 	i = 0;
