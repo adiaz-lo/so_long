@@ -17,16 +17,19 @@
 
 
 # ifndef WIDTH
-#   define WIDTH 1000
+#  define WIDTH 1000
 # endif
 # ifndef HEIGHT
-    #define HEIGHT 1000
+#  define HEIGHT 1000
 # endif
 # ifndef TILE_WIDTH
-    #define TILE_WIDTH 64
+#  define TILE_WIDTH 64
 # endif
 # ifndef TILE_HEIGHT
-    #define TILE_HEIGHT 64
+#  define TILE_HEIGHT 64
+# endif
+# ifndef MAP_FILE
+#  define MAP_FILE "minimap2.ber"
 # endif
 
 #endif

@@ -2,6 +2,12 @@
 #include "includes/player.h"
 #include <readline/readline.h>
 
+void	throw_error(char *string_error)
+{
+	perror(string_error);//¿Cambiar por ft_printf para evitar el errno en el output?
+	exit(1);
+}
+
 char	*read_file(int map_fd)
 {
 	char	*map;
@@ -78,12 +84,25 @@ void	malloc_map(int length, int rows, t_mlx_player *mlx_player)
 	}
 }
 
-void	check_map(t_mlx_player *mlx_player)
+void	check_map_rows_length(t_mlx_player *mlx_player)
 {
+	int i;
 	int	length;
 
 	length = ft_strlen(*(mlx_player->map->map));
-	//while (length == )
+	i = 0;
+	while (mlx_player->map->map[i])
+	{
+		if (!(length == ft_strlen(mlx_player->map->map[i])))
+			throw_error("The map has different length in its rows");
+		i++;
+	}
+}
+
+void	check_map(t_mlx_player *mlx_player)
+{
+	check_map_rows_length(mlx_player);
+	check_
 }
 
 int	read_map(t_mlx_player *mlx_player)
@@ -94,7 +113,7 @@ int	read_map(t_mlx_player *mlx_player)
 	int		char_nu;
 	int		length;
 	
-	map_fd = open("minimap.ber", O_RDONLY);
+	map_fd = open(MAP_FILE, O_RDONLY);
 	if (map_fd == -1)
 		return (1);
 	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
@@ -109,7 +128,7 @@ int	read_map(t_mlx_player *mlx_player)
 		rows++;
 	}
 	close(map_fd);
-	map_fd = open("minimap.ber", O_RDONLY);
+	map_fd = open(MAP_FILE, O_RDONLY);
 	if (map_fd == -1)
 		return (1);
 	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
@@ -138,6 +157,25 @@ int	read_map(t_mlx_player *mlx_player)
 	}
 	//mlx_player->map->map[0] = NULL;
 	return (rows);
+}
+
+void	print_map(t_mlx_player *mlx_player)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	while (mlx_player->map->map[i])
+	{
+		j = 0;
+		while (mlx_player->map->map[i][j])
+		{
+			printf("%c", mlx_player->map->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
 }
 
 void	paint_map(t_mlx_player *mlx_player)
@@ -242,9 +280,8 @@ int32_t	main(void)
 	t_mlx_player	*mlx_player; // It 
 	//int		map[] = {1, 0, 1, 1, 0, 1, 0, 1};
 	int		map_fd;
-	int i, j;
 	
-	map_fd = open("minimap.ber", O_RDONLY);
+	map_fd = open(MAP_FILE, O_RDONLY);
 	if (map_fd == -1)
 		return (1);
 
@@ -261,22 +298,11 @@ int32_t	main(void)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x, mlx_player->map->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 //	open_map(map_fd);
-	//map_fd = open("minimap.ber", O_RDONLY);
+	//map_fd = open(MAP_FILE, O_RDONLY);
 	//read_map(mlx_player);
 	if (mlx_player->map->map == NULL)
 		return (printf("Could not read map\n"));
-	i = 0;
-	while (mlx_player->map->map[i])
-	{
-		j = 0;
-		while (mlx_player->map->map[i][j])
-		{
-			printf("%c", mlx_player->map->map[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
+	print_map(mlx_player);
 	paint_map(mlx_player);
 	
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
