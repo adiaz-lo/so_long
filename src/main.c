@@ -84,7 +84,7 @@ void	malloc_map(int length, int rows, t_mlx_player *mlx_player)
 	}
 }
 
-void	check_map_rows_length(t_mlx_player *mlx_player)
+int	check_map_rows_length(t_mlx_player *mlx_player)
 {
 	int i;
 	int	length;
@@ -97,12 +97,30 @@ void	check_map_rows_length(t_mlx_player *mlx_player)
 			throw_error("The map has different length in its rows");
 		i++;
 	}
+	return (length);
+}
+
+void	check_map_surrounded_walls(t_mlx_player *mlx_player)
+{
+	int	i;
+
+	i = 0;
+	if(!(ft_strchr(mlx_player->map->map[0], '1')))
+		throw_error("The first row of the map isn't wall");
+	else
+		printf("The first row of the map is all wall %s %i\n", __FILE__, __LINE__);
+}
+
+void	check_map_wrong(t_mlx_player *mlx_player)
+{
+	check_map_rows_length(mlx_player);
+	check_map_surrounded_walls(mlx_player);
 }
 
 void	check_map(t_mlx_player *mlx_player)
 {
-	check_map_rows_length(mlx_player);
-	check_
+	check_map_wrong(mlx_player);
+	
 }
 
 int	read_map(t_mlx_player *mlx_player)
