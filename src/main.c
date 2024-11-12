@@ -66,6 +66,21 @@ void	destroy_player(t_mlx_player *mlx_player)
 	//free(mlx_player);
 }
 
+void	calc_map_rows_columns(t_mlx_player *mlx_player)
+{
+	int	i;
+	int	j;
+	
+	i = 0;
+	while (mlx_player->map->map[0][i])
+		i++;
+	j = 0;
+	while (mlx_player->map->map[j])
+		j++;
+	mlx_player->map->colums = i;
+	mlx_player->map->rows = j;
+}
+
 void	malloc_map(int length, int rows, t_mlx_player *mlx_player)
 {
 	int	i;
@@ -84,7 +99,16 @@ void	malloc_map(int length, int rows, t_mlx_player *mlx_player)
 	}
 }
 
-int	check_map_rows_length(t_mlx_player *mlx_player)
+void	check_map_has_minimum_size(t_mlx_player *mlx_player)
+{
+	if ((mlx_player->map->rows >= 3 && mlx_player->map->colums >= 5)
+		|| (mlx_player->map->rows >= 5 && mlx_player->map->colums >= 3))
+		return ;
+	else
+		throw_error(STR_INVALID_MAP_SIZE);
+}
+
+int	check_map_rows_length_is_rectangular(t_mlx_player *mlx_player)
 {
 	int i;
 	int	length;
@@ -100,21 +124,87 @@ int	check_map_rows_length(t_mlx_player *mlx_player)
 	return (length);
 }
 
+void	check_map_horizontal_walls(t_mlx_player *mlx_player)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (mlx_player->map->map[i])
+	{	
+		j = 0;
+		if (mlx_player->map->map[i][0] != '1')
+			throw_error(STR_INVALID_HORIZONTAL_FIRST_CELL);
+		while (mlx_player->map->map[i][j])
+			j++;
+		if (mlx_player->map->map[i][j - 1] != '1')
+			throw_error(STR_INVALID_HORIZONTAL_LAST_CELL);
+		i++;
+	}
+}
+
 void	check_map_surrounded_walls(t_mlx_player *mlx_player)
 {
 	int	i;
 
 	i = 0;
-	if(!(ft_strchr(mlx_player->map->map[0], '1')))
-		throw_error("The first row of the map isn't wall");
-	else
-		printf("The first row of the map is all wall %s %i\n", __FILE__, __LINE__);
+	while (mlx_player->map->map[0][i] == '1')
+		i++;
+	printf("The cell value is: %i %s %i\n", mlx_player->map->map[0][i], __FILE__, __LINE__);
+	if (mlx_player->map->map[0][i] != 0)
+		throw_error("All the cells of the first row of the map aren't walls");
+	i = 0;
+	while (mlx_player->map->map[mlx_player->map->rows - 1][i] == '1')
+		i++;
+	if (mlx_player->map->map[mlx_player->map->rows - 1][i] != 0)
+		throw_error("All the cells of the last row of the map aren't walls");
+	check_map_horizontal_walls(mlx_player);
+		//printf("The first row of the map is all wall %s %i\n", __FILE__, __LINE__);
+}
+
+void	check_map_game_elements(t_mlx_player *mlx_player)
+{
+	int	i;
+	int	j;
+	int32_t	player_number;
+	int32_t	exit_number;
+	int32_t	collectable_number;
+
+	player_number = 0;
+	exit_number = 0;
+	collectable_number = 0;
+	i = 0;
+	while (mlx_player->map->map[i])
+	{
+		j = 0;
+		while (mlx_player->map->map[i][j])
+		{
+			printf("Map cell value is: %c %s %i\n", mlx_player->map->map[i][j], __FILE__, __LINE__);
+			if (mlx_player->map->map[i][j] == 'P')
+				player_number += 1;
+			else if (mlx_player->map->map[i][j] == 'E')
+				exit_number += 1;
+			else if (mlx_player->map->map[i][j] == 'C')
+				collectable_number += 1;
+			else if (mlx_player->map->map[i][j] != '0'
+				&& mlx_player->map->map[i][j] != '1'
+				&& mlx_player->map->map[i][j] != '\n')
+				throw_error("The map has something that doesn't belong there");
+			j++;
+		}
+		i++;
+	}
+	if (player_number != 1 || exit_number != 1 || collectable_number < 1)
+		throw_error("The map isn't correct in terms of map elements");
 }
 
 void	check_map_wrong(t_mlx_player *mlx_player)
 {
-	check_map_rows_length(mlx_player);
+	calc_map_rows_columns(mlx_player);
+	check_map_has_minimum_size(mlx_player);
+	check_map_rows_length_is_rectangular(mlx_player);
 	check_map_surrounded_walls(mlx_player);
+	check_map_game_elements(mlx_player);
 }
 
 void	check_map(t_mlx_player *mlx_player)
@@ -138,7 +228,7 @@ int	read_map(t_mlx_player *mlx_player)
 	line = get_next_line(map_fd);
 	//length = ft_strlen(*(mlx_player->map->map));
 	length = ft_strlen(line);
-	malloc_map(length, 42, mlx_player);
+	malloc_map(length, 42, mlx_player);// Replace the function call
 	while (line)
 	{
 		line = get_next_line(map_fd);

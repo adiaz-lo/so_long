@@ -29,7 +29,17 @@
 #  define TILE_HEIGHT 64
 # endif
 # ifndef MAP_FILE
-#  define MAP_FILE "minimap2.ber"
+#  define MAP_FILE "micromap_wrong.ber"
 # endif
+# ifndef STR_INVALID_MAP_SIZE
+#  define STR_INVALID_MAP_SIZE "The map has an error cause it has less than 5 columns or the map has less than 3 rows"
+# endif
+# ifndef STR_INVALID_HORIZONTAL_FIRST_CELL
+#  define STR_INVALID_HORIZONTAL_FIRST_CELL "There's at least 1 row of the map that doesn't start by a wall"
+# endif
+# ifndef STR_INVALID_HORIZONTAL_LAST_CELL
+#  define STR_INVALID_HORIZONTAL_LAST_CELL "There's at least 1 row of the map that doesn't end by a wall"
+# endif
+
 
 #endif
