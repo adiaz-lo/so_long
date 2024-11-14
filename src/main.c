@@ -207,10 +207,15 @@ void	check_map_wrong(t_mlx_player *mlx_player)
 	check_map_game_elements(mlx_player);
 }
 
+void	check_valid_map(t_mlx_player *mlx_player)
+{
+
+}
+
 void	check_map(t_mlx_player *mlx_player)
 {
 	check_map_wrong(mlx_player);
-	
+	check_valid_map(mlx_player);
 }
 
 int	read_map(t_mlx_player *mlx_player)
@@ -289,8 +294,11 @@ void	print_map(t_mlx_player *mlx_player)
 void	paint_map(t_mlx_player *mlx_player)
 {
 	//Rewrite the function to be variable given the map file
-	int	index;
+	int	i;
+	int	j;
 	int	row;
+	int	col;
+	/*int	index;
 	int	length;
 
 	row = 0;
@@ -318,8 +326,27 @@ void	paint_map(t_mlx_player *mlx_player)
 	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_HEIGHT), __FILE__, __LINE__);
 //	printf("Value of row is: %i ---------- %s:%i\n", row, __FILE__, __LINE__);
 		row++;
+	}*/
+	i = 0;
+	row = 0;
+	while (i < mlx_player->map->rows)
+	{
+		col = 0;
+		j = 0;
+		while (j < mlx_player->map->colums)
+		{
+			if(*(mlx_player->map->map[i]) == 0)
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x + (i * TILE_WIDTH), mlx_player->map->y + (row * TILE_HEIGHT));
+			else if (*(mlx_player->map->map[i]) == 1)
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_wall, mlx_player->map->x + (i * TILE_WIDTH), mlx_player->map->y + (row * TILE_HEIGHT));
+			j++;
+			col++;
+		}
+		i++;
+		row++;
 	}
 }
+
 void	swap_layers(t_mlx_player *mlx_player)
 {
 	mlx_set_instance_depth(mlx_player->player->image_tuxy->instances, 17);
