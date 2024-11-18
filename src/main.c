@@ -441,7 +441,7 @@ int32_t	main(void)
 	paint_map(mlx_player);
 	
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
-	swap_layers(mlx_player);
+	//swap_layers(mlx_player);
 
 	mlx_loop(mlx_player->mlx);
 	destroy_player(mlx_player);
