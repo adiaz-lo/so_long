@@ -344,6 +344,8 @@ void	paint_map(t_mlx_player *mlx_player)
 				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_wall, /*mlx_player->map->x*/ /* + ( */col * TILE_WIDTH/* ) */, /*mlx_player->map->y*/ /* + ( */row * TILE_HEIGHT)/* ) */;
 				//printf("Testing the paint loop in wall %s %i\n", __FILE__, __LINE__);
 			}
+			else if ((mlx_player->map->map[row][col] == 'P'))
+				mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
 			printf("Printing the colum value: %i %s %i\n", (int)col, __FILE__, __LINE__);
 			col++;
 			printf("Printing the row value: %i %s %i\n", (int)row, __FILE__, __LINE__);
@@ -359,6 +361,7 @@ void	swap_layers(t_mlx_player *mlx_player)
 
 void	move_player_right(t_mlx_player *mlx_player)
 {
+	printf("Testing the right movement %s %i\n", __FILE__, __LINE__);
 	mlx_player->player->image_tuxy->instances[0].x += 10;
 }
 
@@ -384,9 +387,14 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(mlx_player->mlx);
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{	
+	{
+		printf("Testing width %i %s %i\n", mlx_player->mlx->width, __FILE__, __LINE__);
+		printf("Testing the D key pressed %s %i\n", __FILE__, __LINE__);
 		if ((mlx_player->player->x + mlx_player->player->image_tuxy->width) > mlx_player->mlx->width)
+		{
+			printf("Testing the D keypress %s %i\n", __FILE__, __LINE__);
 			return ;
+		}
 		move_player_right(mlx_player);
 		printf("x coordinate value: %d\n", mlx_player->player->x);
 		printf("Canvas Width: %d\n", mlx_player->player->x);
@@ -433,7 +441,7 @@ int32_t	main(void)
 	mlx_player->map = init_map(mlx_player, map_fd);
 	check_map(mlx_player);
 
-	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
+	//mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x, mlx_player->map->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
@@ -444,7 +452,7 @@ int32_t	main(void)
 		return (printf("Could not read map\n"));
 	print_map(mlx_player);
 	paint_map(mlx_player);
-	mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
+	//mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
 
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
 	//swap_layers(mlx_player);

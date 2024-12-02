@@ -8,6 +8,7 @@ typedef struct s_map
 	char			**map;
 	uint32_t		rows;
 	uint32_t		colums;
+	uint32_t		cell_number;
 	mlx_texture_t   *texture_floor;
 	mlx_image_t     *image_floor;
 	mlx_texture_t   *texture_wall;
