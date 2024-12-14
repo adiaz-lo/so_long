@@ -28,9 +28,6 @@
 # ifndef TILE_HEIGHT
 #  define TILE_HEIGHT 64
 # endif
-# ifndef MAP_FILE
-#  define MAP_FILE "micromap_wrong.ber"
-# endif
 # ifndef STR_INVALID_MAP_SIZE
 #  define STR_INVALID_MAP_SIZE "The map has an error cause it has less than 5 columns or the map has less than 3 rows"
 # endif
