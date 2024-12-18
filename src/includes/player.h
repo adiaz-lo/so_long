@@ -13,6 +13,10 @@ typedef struct s_map
 	mlx_image_t     *image_floor;
 	mlx_texture_t   *texture_wall;
 	mlx_image_t     *image_wall;
+	mlx_texture_t   *texture_collectable;
+	mlx_image_t     *image_collectable;
+	mlx_texture_t   *texture_exit;
+	mlx_image_t     *image_exit;
 }   t_map;
 
 typedef struct s_player

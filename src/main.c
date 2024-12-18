@@ -51,6 +51,10 @@ t_map	*init_map(t_mlx_player *mlx_player, int map_fd)
 	mlx_player->map->image_floor = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_floor);
 	mlx_player->map->texture_wall = mlx_load_png("wall_final.png");
 	mlx_player->map->image_wall = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_wall);
+	mlx_player->map->texture_collectable = mlx_load_png("win.png");
+	mlx_player->map->image_collectable = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_collectable);
+	mlx_player->map->texture_exit = mlx_load_png("gnu.png");
+	mlx_player->map->image_exit = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_exit);
 	return (mlx_player->map);
 }
 
@@ -232,11 +236,12 @@ int	read_map(t_mlx_player *mlx_player, char *map)
 	map_fd = open(map, O_RDONLY);
 	if (map_fd == -1)
 		return (1);
-	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
+	//printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
 	line = get_next_line(map_fd);
 	//length = ft_strlen(*(mlx_player->map->map));
 	length = ft_strlen(line);
 	malloc_map(length, 42, mlx_player);// Replace the function call
+	rows = 0;
 	while (line)
 	{
 		line = get_next_line(map_fd);
@@ -247,13 +252,14 @@ int	read_map(t_mlx_player *mlx_player, char *map)
 	map_fd = open(map, O_RDONLY);
 	if (map_fd == -1)
 		return (1);
-	printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
+	//printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
 	line = get_next_line(map_fd);
 	char_nu = 0;
 	rows = 0;
 	while (line)
 	{
 		line = get_next_line(map_fd);
+		printf("Printing actual map %i row/line %s %s %i\n", rows, line, __FILE__, __LINE__);
 		if (!line)
 			break;
 		mlx_player->map->map[rows++] = line;
@@ -261,7 +267,7 @@ int	read_map(t_mlx_player *mlx_player, char *map)
 		char_nu++;
 		mlx_player->map->cell_number += ft_strlen(line);
 	}
-	printf("char_nu variable value is: %i %s %i\n", char_nu, __FILE__, __LINE__);
+	//printf("char_nu variable value is: %i %s %i\n", char_nu, __FILE__, __LINE__);
 	printf("Number of cells variable value is: %i %s %i\n", mlx_player->map->cell_number, __FILE__, __LINE__);
 	close(map_fd);
 	
@@ -270,14 +276,14 @@ int	read_map(t_mlx_player *mlx_player, char *map)
 //		return (NULL);
 	//printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-	while (mlx_player->map->map && *(mlx_player->map->map))
+	rows = 0;
+	while (mlx_player->map->map && mlx_player->map->map[rows])
 	{
 		printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-		*(mlx_player->map->map) = get_next_line(map_fd);
-		printf("Debugging Map Reading ---------- %s %s:%i\n", *(mlx_player->map->map), __FILE__, __LINE__);
+		mlx_player->map->map[rows] = get_next_line(map_fd);
+		printf("Debugging Map Reading ---------- %s %s:%i\n", mlx_player->map->map[rows], __FILE__, __LINE__);
 		rows++;
 		//free(map);
-		mlx_player->map->map++;
 	}
 	//mlx_player->map->map[0] = NULL;
 	return (rows);
@@ -357,6 +363,16 @@ void	paint_map(t_mlx_player *mlx_player)
 			}
 			else if ((mlx_player->map->map[row][col] == 'P'))
 				mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
+			else if ((mlx_player->map->map[row][col]) == 'C')
+			{
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_collectable, col * TILE_WIDTH, row * TILE_HEIGHT);
+				//printf("Testing the paint loop in wall %s %i\n", __FILE__, __LINE__);
+			}
+			else if ((mlx_player->map->map[row][col]) == 'E')
+			{
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_exit, col * TILE_WIDTH, row * TILE_HEIGHT);
+				//printf("Testing the paint loop in wall %s %i\n", __FILE__, __LINE__);
+			}
 			printf("Printing the colum value: %i %s %i\n", (int)col, __FILE__, __LINE__);
 			col++;
 			printf("Printing the row value: %i %s %i\n", (int)row, __FILE__, __LINE__);
@@ -459,6 +475,7 @@ int32_t	main(int argc, char **argv)
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x, mlx_player->map->y);
 //	mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x+FLOOR_WIDTH, mlx_player->map->y);
 //	open_map(map_fd);
+	//printf("Printing the map filename %s %s %i\n", argv[1], __FILE__, __LINE__);
 	read_map(mlx_player, argv[1]);
 	if (mlx_player->map->map == NULL)
 		return (printf("Could not read map\n"));
