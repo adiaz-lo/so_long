@@ -53,7 +53,7 @@ t_map	*init_map(t_mlx_player *mlx_player, int map_fd)
 	mlx_player->map->image_wall = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_wall);
 	mlx_player->map->texture_collectable = mlx_load_png("win.png");
 	mlx_player->map->image_collectable = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_collectable);
-	mlx_player->map->texture_exit = mlx_load_png("gnu.png");
+	mlx_player->map->texture_exit = mlx_load_png("arch_transparent_borders.png");
 	mlx_player->map->image_exit = mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_exit);
 	return (mlx_player->map);
 }
@@ -84,6 +84,7 @@ void	calc_map_rows_columns(t_mlx_player *mlx_player)
 		j++;
 	mlx_player->map->colums = i;
 	mlx_player->map->rows = j;
+	//printf("Printing rows: %i | columns: %i | %s %i\n", mlx_player->map->colums, mlx_player->map->rows, __FILE__, __LINE__);
 }
 
 void	malloc_map(int length, int rows, t_mlx_player *mlx_player)
@@ -240,43 +241,44 @@ int	read_map(t_mlx_player *mlx_player, char *map)
 	line = get_next_line(map_fd);
 	//length = ft_strlen(*(mlx_player->map->map));
 	length = ft_strlen(line);
-	malloc_map(length, 42, mlx_player);// Replace the function call
+	// malloc_map(length, 42, mlx_player);// Replace the function call
 	rows = 0;
 	while (line)
 	{
-		line = get_next_line(map_fd);
 		free(line);
 		rows++;
+		line = get_next_line(map_fd);
 	}
+	printf("Rows' value is: %i %s %i\n", rows, __FILE__, __LINE__);
+	malloc_map(length, rows, mlx_player);
 	close(map_fd);
 	map_fd = open(map, O_RDONLY);
 	if (map_fd == -1)
 		return (1);
 	//printf("Map fd is: %i %s %i\n", map_fd, __FILE__, __LINE__);
 	line = get_next_line(map_fd);
+	mlx_player->map->cell_number = rows * (ft_strlen(line) - 1);
 	char_nu = 0;
 	rows = 0;
 	while (line)
 	{
-		line = get_next_line(map_fd);
-		printf("Printing actual map %i row/line %s %s %i\n", rows, line, __FILE__, __LINE__);
-		if (!line)
-			break;
+		//printf("Printing actual map %i row/line %s %s %i\n", rows, line, __FILE__, __LINE__);
 		mlx_player->map->map[rows++] = line;
-		write(1, "Holo\n", 5);
+		//write(1, "Holo\n", 5);
 		char_nu++;
-		mlx_player->map->cell_number += ft_strlen(line);
+		//mlx_player->map->cell_number += ft_strlen(line);
+		line = get_next_line(map_fd);
 	}
 	//printf("char_nu variable value is: %i %s %i\n", char_nu, __FILE__, __LINE__);
-	printf("Number of cells variable value is: %i %s %i\n", mlx_player->map->cell_number, __FILE__, __LINE__);
+	//printf("Number of cells variable value is: %i %s %i\n", mlx_player->map->cell_number, __FILE__, __LINE__);
 	close(map_fd);
 	
-	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
+	//printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 	//ft_printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
 //		return (NULL);
 	//printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-	printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
-	rows = 0;
+	//printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
+	/*rows = 0;
 	while (mlx_player->map->map && mlx_player->map->map[rows])
 	{
 		printf("Debugging Map Reading ---------- %s:%i\n", __FILE__, __LINE__);
@@ -284,7 +286,7 @@ int	read_map(t_mlx_player *mlx_player, char *map)
 		printf("Debugging Map Reading ---------- %s %s:%i\n", mlx_player->map->map[rows], __FILE__, __LINE__);
 		rows++;
 		//free(map);
-	}
+	}*/
 	//mlx_player->map->map[0] = NULL;
 	return (rows);
 }
@@ -311,8 +313,8 @@ void	print_map(t_mlx_player *mlx_player)
 void	paint_map(t_mlx_player *mlx_player)
 {
 	//Rewrite the function to be variable given the map file
-	int	row;
-	int	col;
+	int	y;
+	int	x;
 	/*int	index;
 	int	length;
 
@@ -327,10 +329,10 @@ void	paint_map(t_mlx_player *mlx_player)
 		{
 			printf("Debugging map painting is: %i ---------- %s:%i\n", length, __FILE__, __LINE__);
 			if(*(mlx_player->map->map[index]) == 0)
-				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x + (index * TILE_WIDTH), mlx_player->map->y + (row * TILE_HEIGHT));
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, mlx_player->map->x + (index * TILE_SIZE), mlx_player->map->y + (row * TILE_SIZE));
 			else if (*(mlx_player->map->map[index]) == 1)
-				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_wall, mlx_player->map->x + (index * TILE_WIDTH), mlx_player->map->y + (row * TILE_HEIGHT));
-	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_HEIGHT), __FILE__, __LINE__);
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_wall, mlx_player->map->x + (index * TILE_SIZE), mlx_player->map->y + (row * TILE_SIZE));
+	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_SIZE), __FILE__, __LINE__);
 			if (mlx_player->player->image_tuxy->instances[17].x > 120)
 			{
 				printf("Hola tuxy invisible %s %i\n", __FILE__, __LINE__);
@@ -338,78 +340,92 @@ void	paint_map(t_mlx_player *mlx_player)
 			}
 			index++;
 		}
-	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_HEIGHT), __FILE__, __LINE__);
+	printf("Value of y is: %i ---------- %s:%i\n", mlx_player->map->y + (row * TILE_SIZE), __FILE__, __LINE__);
 //	printf("Value of row is: %i ---------- %s:%i\n", row, __FILE__, __LINE__);
 		row++;
 	}*/
-	row = 0;
-	while (row < mlx_player->map->rows)
+	y = 0;
+	while (y < mlx_player->map->rows)
 	{
 		//printf("Testing the paint loop %s %i\n", __FILE__, __LINE__);
-		col = 0;
-		while (col < mlx_player->map->colums)
+		x = 0;
+		while (x < mlx_player->map->colums)
 		{
-			//printf("Testing the paint loop in loop %s %i\n", __FILE__, __LINE__);
 			//printf("Printing map cell value: %c %s %i\n", mlx_player->map->map[row][col], __FILE__, __LINE__);
-			if((mlx_player->map->map[row][col]) == '0')
+			if((mlx_player->map->map[y][x]) == '0')
 			{
-				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, /*mlx_player->map->x*/ /* + ( */col * TILE_WIDTH/* ) */, /* mlx_player->map->y */ /* + ( */row * TILE_HEIGHT)/* ) */;
-				printf("Printing the floor times: %i %s %i\n", (int)col, __FILE__, __LINE__);
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, /*mlx_player->map->x*/ /* + ( */x * TILE_SIZE/* ) */, /* mlx_player->map->y */ /* + ( */y * TILE_SIZE)/* ) */;
+				printf("Printing the floor times: %i %s %i\n", (int)x, __FILE__, __LINE__);
 			}
-			else if ((mlx_player->map->map[row][col]) == '1')
+			else if ((mlx_player->map->map[y][x]) == '1')
 			{
-				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_wall, /*mlx_player->map->x*/ /* + ( */col * TILE_WIDTH/* ) */, /*mlx_player->map->y*/ /* + ( */row * TILE_HEIGHT)/* ) */;
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_wall, /*mlx_player->map->x*/ /* + ( */x * TILE_SIZE/* ) */, /*mlx_player->map->y*/ /* + ( */y * TILE_SIZE)/* ) */;
 				//printf("Testing the paint loop in wall %s %i\n", __FILE__, __LINE__);
 			}
-			else if ((mlx_player->map->map[row][col] == 'P'))
-				mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
-			else if ((mlx_player->map->map[row][col]) == 'C')
+			else if ((mlx_player->map->map[y][x] == 'P'))
 			{
-				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_collectable, col * TILE_WIDTH, row * TILE_HEIGHT);
+				mlx_player->player->x = x;
+				mlx_player->player->y = y;
+				//printf("Printing x: %i | y: %i | %s %i\n", mlx_player->map->x, mlx_player->map->y, __FILE__, __LINE__);
+				printf("Printing x: %i | y: %i | %s %i\n", x, y, __FILE__, __LINE__);
+				//mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, y * TILE_SIZE, x * TILE_SIZE);
+				mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, x * TILE_SIZE, y * TILE_SIZE);
+			}
+			else if ((mlx_player->map->map[y][x]) == 'C')
+			{
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, y * TILE_SIZE, x * TILE_SIZE);
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_collectable, y * TILE_SIZE, x * TILE_SIZE);
 				//printf("Testing the paint loop in wall %s %i\n", __FILE__, __LINE__);
 			}
-			else if ((mlx_player->map->map[row][col]) == 'E')
+			else if ((mlx_player->map->map[y][x]) == 'E')
 			{
-				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_exit, col * TILE_WIDTH, row * TILE_HEIGHT);
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_floor, y * TILE_SIZE, x * TILE_SIZE);
+				mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_exit, y * TILE_SIZE, x * TILE_SIZE);
 				//printf("Testing the paint loop in wall %s %i\n", __FILE__, __LINE__);
 			}
-			printf("Printing the colum value: %i %s %i\n", (int)col, __FILE__, __LINE__);
-			col++;
-			printf("Printing the row value: %i %s %i\n", (int)row, __FILE__, __LINE__);
+			printf("Printing the colum value: %i %s %i\n", (int)x, __FILE__, __LINE__);
+			x++;
 		}
-		row++;
+		printf("Printing the row value: %i %s %i\n", (int)y, __FILE__, __LINE__);
+		y++;
 	}
 }
 
 void	swap_layers(t_mlx_player *mlx_player)
 {
 	mlx_set_instance_depth(mlx_player->player->image_tuxy->instances, mlx_player->map->cell_number);
+	printf("The cell numbers value is: %i %s %i\n", mlx_player->map->cell_number, __FILE__, __LINE__);
 }
 
 void	move_player_right(t_mlx_player *mlx_player)
 {
 	printf("Testing the right movement %s %i\n", __FILE__, __LINE__);
-	mlx_player->player->image_tuxy->instances[0].x += 10;
+	mlx_player->player->x += TILE_SIZE;
+	mlx_player->player->image_tuxy->instances->x += TILE_SIZE;
 }
 
 void	move_player_left(t_mlx_player *mlx_player)
 {
-	mlx_player->player->image_tuxy->instances[0].x -= 10;
+	mlx_player->player->x -= TILE_SIZE;
+	mlx_player->player->image_tuxy->instances->x -= TILE_SIZE;
 }
 
 void	move_player_down(t_mlx_player *mlx_player)
 {
-	mlx_player->player->image_tuxy->instances[0].y += 10;
+	mlx_player->player->y += TILE_SIZE;
+	mlx_player->player->image_tuxy->instances->y += TILE_SIZE;
 }
 
 void	move_player_up(t_mlx_player *mlx_player)
 {
-	mlx_player->player->image_tuxy->instances[0].y -= 10;
+	mlx_player->player->y -= TILE_SIZE;
+	mlx_player->player->image_tuxy->instances->y -= TILE_SIZE;
 }
 
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
-	printf("Testing the y down limits\n");
+	// printf("Testing the y down limits\n");
 	t_mlx_player *mlx_player = (t_mlx_player *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(mlx_player->mlx);
@@ -438,13 +454,13 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 	}
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{	
-		if (mlx_player->player->x)
-			return ;
+		 if ((mlx_player->player->x - mlx_player->player->image_tuxy->width) <= mlx_player->mlx->width)
+		 	return ;
 		move_player_left(mlx_player);
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		if (mlx_player->player->y)
+		 if ((mlx_player->player->y - mlx_player->player->image_tuxy->height) <= mlx_player->mlx->height)
 			return ;
 		move_player_up(mlx_player);
 	}
@@ -484,7 +500,7 @@ int32_t	main(int argc, char **argv)
 	//mlx_image_to_window(mlx_player->mlx, mlx_player->player->image_tuxy, mlx_player->player->x, mlx_player->player->y);
 
 	mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
-	//swap_layers(mlx_player);
+	swap_layers(mlx_player);
 
 	mlx_loop(mlx_player->mlx);
 	destroy_player(mlx_player);

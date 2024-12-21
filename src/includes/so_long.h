@@ -22,11 +22,8 @@
 # ifndef HEIGHT
 #  define HEIGHT 1000
 # endif
-# ifndef TILE_WIDTH
-#  define TILE_WIDTH 64
-# endif
-# ifndef TILE_HEIGHT
-#  define TILE_HEIGHT 64
+# ifndef TILE_SIZE
+#  define TILE_SIZE 64
 # endif
 # ifndef STR_INVALID_MAP_SIZE
 #  define STR_INVALID_MAP_SIZE "The map has an error cause it has less than 5 columns or the map has less than 3 rows"
