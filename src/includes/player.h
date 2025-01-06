@@ -1,5 +1,7 @@
 #ifndef PLAYER_H
-#define PLAYER_H
+# define PLAYER_H
+
+# include "common.h"
 
 typedef struct s_map
 {

@@ -1,6 +1,5 @@
-#include "includes/player.h"
-#include "includes/so_long.h"
-#include <readline/readline.h>
+#include "../includes/so_long.h"
+#include <stdint.h>
 
 void throw_error(char *string_error) {
   perror(string_error); // ¿Cambiar por ft_printf para evitar el errno en el
@@ -113,8 +112,8 @@ void check_map_has_minimum_size(t_mlx_player *mlx_player) {
 }
 
 int check_map_rows_length_is_rectangular(t_mlx_player *mlx_player) {
-  int i;
-  int length;
+  int           i;
+  unsigned int  length;
 
   length = ft_strlen(*(mlx_player->map->map));
   i = 0;
@@ -204,11 +203,12 @@ void check_map_wrong(t_mlx_player *mlx_player) {
   check_map_game_elements(mlx_player);
 }
 
-void check_valid_map(t_mlx_player *mlx_player) {}
+/*void check_valid_map(t_mlx_player *mlx_player) {}
+*/
 
 void check_map(t_mlx_player *mlx_player) {
   check_map_wrong(mlx_player);
-  check_valid_map(mlx_player);
+//  check_valid_map(mlx_player);
 }
 
 int read_map(t_mlx_player *mlx_player, char *map) {
@@ -306,8 +306,8 @@ void print_map(t_mlx_player *mlx_player) {
 
 void paint_map(t_mlx_player *mlx_player) {
   // Rewrite the function to be variable given the map file
-  int y;
-  int x;
+  uint32_t y;
+  uint32_t x;
   /*int	index;
   int	length;
 
@@ -433,8 +433,9 @@ void my_keyhook(mlx_key_data_t keydata, void *param) {
     printf("Testing width %i %s %i\n", mlx_player->mlx->width, __FILE__,
            __LINE__);
     printf("Testing the D key pressed %s %i\n", __FILE__, __LINE__);
-    if ((mlx_player->player->x + mlx_player->player->image_tuxy->width) >
-        mlx_player->mlx->width) {
+    if ((mlx_player->player->x + mlx_player->player->image_tuxy->width)
+        > (uint32_t)mlx_player->mlx->width)
+    {
       printf("Testing the D keypress %s %i\n", __FILE__, __LINE__);
       return;
     }
@@ -446,8 +447,8 @@ void my_keyhook(mlx_key_data_t keydata, void *param) {
   if (keydata.key == MLX_KEY_S &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
     printf("Testing the limits\n");
-    if ((mlx_player->player->y + mlx_player->player->image_tuxy->height) >
-        mlx_player->mlx->height)
+    if ((mlx_player->player->y + mlx_player->player->image_tuxy->height)
+        > (uint32_t)mlx_player->mlx->height)
       return;
     printf("Testing the limits\n");
     move_player_down(mlx_player);
@@ -455,15 +456,15 @@ void my_keyhook(mlx_key_data_t keydata, void *param) {
   }
   if (keydata.key == MLX_KEY_A &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    if ((mlx_player->player->x - mlx_player->player->image_tuxy->width) <=
-        mlx_player->mlx->width)
+    if ((mlx_player->player->x - mlx_player->player->image_tuxy->width)
+        <= (uint32_t)mlx_player->mlx->width)
       return;
     move_player_left(mlx_player);
   }
   if (keydata.key == MLX_KEY_W &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    if ((mlx_player->player->y - mlx_player->player->image_tuxy->height) <=
-        mlx_player->mlx->height)
+    if ((mlx_player->player->y - mlx_player->player->image_tuxy->height)
+        <= (uint32_t)mlx_player->mlx->height)
       return;
     move_player_up(mlx_player);
   }
