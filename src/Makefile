@@ -6,7 +6,7 @@ CC = gcc
 
 SRCS_DIR = src/
 
-CCFLAGS = -Wall -Werror -Wextra -g3 -ldl -lglfw -pthread -lm -llib/MLX42/
+CCFLAGS = -Wall -Werror -Wextra -g3 -ldl -lglfw -pthread -lm
 
 INCLUDE = includes/so_long.h includes/map.h includes/common.h includes/map.h
 
@@ -29,7 +29,7 @@ $(DEPS):
 	make -C Libft
 
 $(NAME): $(DEPS) $(INCLUDE) $(OBJS)
-	$(CC) $(CCFLAGS) $(OBJS) $(DEPS) -o $(NAME)
+	$(CC) $(OBJS) $(DEPS) $(CCFLAGS) -o $(NAME)
 
 clean :
 	$(RM) $(OBJS)

@@ -29,7 +29,7 @@ t_player *init_player(t_mlx_player *mlx_player) {
   mlx_player->player = malloc(sizeof(t_player));
   mlx_player->player->x = 0;
   mlx_player->player->y = 0;
-  mlx_player->player->texture = mlx_load_png("tuxy_resized.png");
+  mlx_player->player->texture = mlx_load_png("./sprites/stuxy_resized.png");
   mlx_player->player->image_tuxy =
       mlx_texture_to_image(mlx_player->mlx, mlx_player->player->texture);
   return (mlx_player->player);
@@ -43,16 +43,16 @@ t_map *init_map(t_mlx_player *mlx_player, int map_fd) {
   mlx_player->map->map[lines] = NULL;*/
   mlx_player->map->cell_number = 0;
   mlx_player->map->map = ft_split(read_file(map_fd), '\n');
-  mlx_player->map->texture_floor = mlx_load_png("floor.png");
+  mlx_player->map->texture_floor = mlx_load_png("./sprites/floor.png");
   mlx_player->map->image_floor =
       mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_floor);
-  mlx_player->map->texture_wall = mlx_load_png("wall_final.png");
+  mlx_player->map->texture_wall = mlx_load_png("./sprites/wall_final.png");
   mlx_player->map->image_wall =
       mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_wall);
-  mlx_player->map->texture_collectable = mlx_load_png("win.png");
+  mlx_player->map->texture_collectable = mlx_load_png("./sprites/win.png");
   mlx_player->map->image_collectable = mlx_texture_to_image(
       mlx_player->mlx, mlx_player->map->texture_collectable);
-  mlx_player->map->texture_exit = mlx_load_png("arch_transparent_borders.png");
+  mlx_player->map->texture_exit = mlx_load_png("./sprites/arch_transparent_borders.png");
   mlx_player->map->image_exit =
       mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_exit);
   return (mlx_player->map);
@@ -361,7 +361,7 @@ __LINE__); row++;
             /*mlx_player->map->x*/ /* + ( */ y * TILE_SIZE /* ) */,
             /*mlx_player->map->y*/ /* + ( */ x * TILE_SIZE) /* ) */;
         // printf("Testing the paint loop in wall %s %i\n", __FILE__, __LINE__);
-      } else if ((mlx_player->map->map[y][x] == 'P')) {
+      } else if ((mlx_player->map->map[y][x]) == 'P') {
         mlx_player->player->x = x;
         mlx_player->player->y = y;
         // printf("Printing x: %i | y: %i | %s %i\n", mlx_player->map->x,
@@ -479,6 +479,7 @@ int32_t main(int argc, char **argv) {
                 "you must have 2 arguments");
   map_fd = open(argv[1], O_RDONLY);
 
+//  printf("Testing the map file open %i %s %i\n", map_fd, __FILE__, __LINE__);
   if (map_fd == -1)
     return (1);
 
