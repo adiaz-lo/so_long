@@ -29,7 +29,7 @@ t_player *init_player(t_mlx_player *mlx_player) {
   mlx_player->player = malloc(sizeof(t_player));
   mlx_player->player->x = 0;
   mlx_player->player->y = 0;
-  mlx_player->player->texture = mlx_load_png("./sprites/stuxy_resized.png");
+  mlx_player->player->texture = mlx_load_png("./sprites/tuxy_resized.png");
   mlx_player->player->image_tuxy =
       mlx_texture_to_image(mlx_player->mlx, mlx_player->player->texture);
   return (mlx_player->player);
@@ -215,7 +215,7 @@ int read_map(t_mlx_player *mlx_player, char *map) {
   int rows;
   int map_fd;
   char *line;
-  int char_nu;
+  // int char_nu;
   int length;
   int i;
 
@@ -243,7 +243,7 @@ int read_map(t_mlx_player *mlx_player, char *map) {
   line = get_next_line(map_fd);
   printf("Debug number 42: %s %i\n", __FILE__, __LINE__);
   mlx_player->map->cell_number = (rows * (ft_strlen(line) - 1)) + 1;
-  char_nu = 0;
+  // char_nu = 0;
   // rows = 0;
   i = rows - 1;
   /*while (line)
@@ -255,13 +255,17 @@ int read_map(t_mlx_player *mlx_player, char *map) {
           //mlx_player->map->cell_number += ft_strlen(line);
           line = get_next_line(map_fd);
   }*/
+  mlx_player->map->map[i] = line;
   while (i >= 0) {
     line = get_next_line(map_fd);
     mlx_player->map->map[i] = line;
-    char_nu++;
+    printf("Debugging Map Reading %i ---------- %s\n", i, mlx_player->map->map[i]);
+    //char_nu++;
     i--;
   }
+
   mlx_player->map->map[rows] = NULL;
+  printf("Debugging Map Reading ---------- %s\n", mlx_player->map->map[0]);
   // printf("char_nu variable value is: %i %s %i\n", char_nu, __FILE__,
   // __LINE__); printf("Number of cells variable value is: %i %s %i\n",
   // mlx_player->map->cell_number, __FILE__, __LINE__);
