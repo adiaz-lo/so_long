@@ -245,7 +245,7 @@ int read_map(t_mlx_player *mlx_player, char *map) {
   mlx_player->map->cell_number = (rows * (ft_strlen(line) - 1)) + 1;
   // char_nu = 0;
   // rows = 0;
-  i = rows - 1;
+  i = rows - 2;
   /*while (line)
   {
           //printf("Printing actual map %i row/line %s %s %i\n", rows, line,
