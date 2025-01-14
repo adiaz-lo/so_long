@@ -27,6 +27,9 @@
 # ifndef STR_INVALID_HORIZONTAL_LAST_CELL
 #  define STR_INVALID_HORIZONTAL_LAST_CELL "There's at least 1 row of the map that doesn't end by a wall"
 # endif
+# ifndef MAP_EXTENSION
+#  define MAP_EXTENSION ".ber"
+# endif
 
 
 #endif
