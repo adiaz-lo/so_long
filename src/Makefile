@@ -16,7 +16,7 @@ ARFLAGS = -rcs
 
 RM = rm -f
 
-SRCS = so_long.c
+SRCS = so_long.c	init.c	read_file.c	throw_error.c
 
 DIR_PREFIX = $(addprefix $(SRCS_DIR), $(SRCS))
 

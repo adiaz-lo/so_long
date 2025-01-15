@@ -31,5 +31,9 @@
 #  define MAP_EXTENSION ".ber"
 # endif
 
+t_player *init_player(t_mlx_player *mlx_player);
+t_map *init_map(t_mlx_player *mlx_player, int map_fd);
+void throw_error(char *string_error);
+char *read_file(int map_fd);
 
 #endif

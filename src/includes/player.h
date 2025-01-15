@@ -10,7 +10,11 @@ typedef struct s_map
 	char			**map;
 	uint32_t		rows;
 	uint32_t		columns;
-	uint32_t		cell_nu;
+}   t_map;
+
+typedef struct  s_textures
+{
+uint32_t		cell_nu;
 	mlx_texture_t   *floor_tex;
 	mlx_image_t     *floor_img;
 	mlx_texture_t   *wall_tex;
@@ -19,9 +23,9 @@ typedef struct s_map
 	mlx_image_t     *collec_img;
 	mlx_texture_t   *texture_exit;
 	mlx_image_t     *image_exit;
-}   t_map;
+}
 
-typedef struct s_player
+	typedef struct s_player
 {
 	uint32_t         x;
 	uint32_t         y;

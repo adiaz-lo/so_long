@@ -143,6 +143,7 @@ void check_map(t_mlx_player *mlx_player) {
 //  check_valid_map(mlx_player);
 }
 
+//Check empty file, file exists, errors returns fd of map
 int read_map(t_mlx_player *mlx_player, char *map) {
   int rows;
   int map_fd;
