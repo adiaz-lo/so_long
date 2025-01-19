@@ -6,7 +6,7 @@ CC = gcc
 
 SRCS_DIR = src/
 
-CCFLAGS = -Wall -Werror -Wextra -Iincludes
+CFLAGS = -Wall -Werror -Wextra -Iincludes
 
 DEB_FLAGS = -g3
 
@@ -25,13 +25,13 @@ OBJS = $(DIR_PREFIX:.c=.o)
 all:	$(NAME)
 
 %.o : %.c
-	$(CC) $(CCFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(DEPS):
 	make -C Libft
 
 $(NAME): $(DEPS) $(INCLUDE) $(OBJS)
-	$(CC) $(OBJS) $(DEPS) $(CCFLAGS) $(DEB_FLAGS) $(LIB_FLAGS) -o $(NAME)
+	$(CC) $(OBJS) $(DEPS) $(CFLAGS) $(DEB_FLAGS) $(LIB_FLAGS) -o $(NAME)
 
 clean :
 	$(RM) $(OBJS)

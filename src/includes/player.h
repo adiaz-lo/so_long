@@ -21,8 +21,8 @@ typedef struct  s_textures
 	mlx_image_t     *wall_img;
 	mlx_texture_t   *collec_tex;
 	mlx_image_t     *collec_img;
-	mlx_texture_t   *texture_exit;
-	mlx_image_t     *image_exit;
+	mlx_texture_t   *exit_tex;
+	mlx_image_t     *exit_img;
 }   t_textures;
 
 typedef struct s_player
@@ -30,8 +30,8 @@ typedef struct s_player
 	uint32_t         x;
 	uint32_t         y;
 	uint32_t         speed;
-	mlx_texture_t   *texture;
-	mlx_image_t     *image_tuxy;
+	mlx_texture_t   *player_tex;
+	mlx_image_t     *player_img;
 }   t_player;
 
 typedef struct s_game
