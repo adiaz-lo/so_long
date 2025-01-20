@@ -35,5 +35,8 @@ t_player *init_player(t_player *mlx_player);
 t_map init_map(int map_fd);
 void throw_error(char *string_error);
 char *read_file(int map_fd);
+void    free_map(char **map);
+int open_file(char *file);
+void    close_file(int map_fd);
 
 #endif
