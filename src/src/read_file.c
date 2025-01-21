@@ -2,18 +2,17 @@
 
 char **read_file(int map_fd, t_map map)
 {
-  char *aux;
   char *map_line;
+  int   i;
 
   map.map = NULL;
   map_line = get_next_line(map_fd);
+  i = 0;
   while (map_line) {
-    aux = *map;
-    *(map.map) = ft_strjoin(map.map, map_line);
-    if (aux)
-      free(aux);
+    map.map[i] = ft_strdup(map_line);
     free(map_line);
     map_line = get_next_line(map_fd);
+    i++;
   }
   return (map.map);
 }

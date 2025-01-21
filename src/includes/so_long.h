@@ -32,11 +32,12 @@
 # endif
 
 t_player *init_player(t_player *mlx_player);
-t_map init_map(int map_fd);
+// t_map init_map(int map_fd);
 void throw_error(char *string_error);
-char *read_file(int map_fd);
+char **read_file(int map_fd, t_map map);
 void    free_map(char **map);
 int open_file(char *file);
 void    close_file(int map_fd);
+void clean(char **map, int map_fd);
 
 #endif

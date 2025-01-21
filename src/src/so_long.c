@@ -350,7 +350,7 @@ int32_t main(int argc, char **argv) {
     throw_error("The map file you've tried isn't a *.ber file");
   // map->map = malloc(size_t size);
   map_fd = open_file(argv[1]);
-  map.map = read_file(map_fd);
+  map.map = read_file(map_fd, map);
   // map = init_map(map_fd);
 
   // mlx_player = malloc(sizeof(t_mlx_player));

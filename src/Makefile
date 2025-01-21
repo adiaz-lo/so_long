@@ -1,6 +1,6 @@
 NAME = so_long
 
-DEPS = Libft/libft.a Libft/src/GNL/get_next_line.c lib/MLX42/build/libmlx42.a
+DEPS = Libft/libft.a lib/MLX42/build/libmlx42.a
 
 CC = gcc
 
@@ -16,7 +16,7 @@ ARFLAGS = -rcs
 
 RM = rm -f
 
-SRCS = so_long.c	init.c	read_file.c	throw_error.c
+SRCS = so_long.c	init.c	read_file.c	throw_error.c close_file.c free_map.c clean.c open_file.c
 
 DIR_PREFIX = $(addprefix $(SRCS_DIR), $(SRCS))
 
