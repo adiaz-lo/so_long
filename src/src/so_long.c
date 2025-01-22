@@ -340,7 +340,7 @@ int validate_map_name(char *map_name) {
 
 int32_t main(int argc, char **argv) {
   // t_mlx_player *mlx_player; // It
-  int map_fd;
+  // int map_fd;
   t_map map;
 
   if (argc != 2)
@@ -349,8 +349,8 @@ int32_t main(int argc, char **argv) {
   if (!validate_map_name(argv[1]))
     throw_error("The map file you've tried isn't a *.ber file");
   // map->map = malloc(size_t size);
-  map_fd = open_file(argv[1]);
-  map.map = read_file(map_fd, map);
+  // map_fd = open_file(argv[1]);
+  map.map = read_file(argv[1], &map);
   // map = init_map(map_fd);
 
   // mlx_player = malloc(sizeof(t_mlx_player));
@@ -373,7 +373,8 @@ int32_t main(int argc, char **argv) {
   // free(mlx_player->player);
   // mlx_terminate(mlx_player->mlx);
   // close(map_fd);
-  clean(map.map, map_fd);
+  // clean(map.map, map_fd);
+  // clean(map.map);
 
   return (0);
 }

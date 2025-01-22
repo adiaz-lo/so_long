@@ -1,0 +1,9 @@
+This program will locate the first occurrence of the null-terminated given substring in a given string where not more than a given characters are searched. Characters that appear after a '\0' are not searched.
+
+While substring is not NULL & string is not NULL & length is not NULL
+	
+
+char	*ft_substr(char const *s, uint start, size_t len);
+
+const size_t sl = ft_strlen(s);
+
