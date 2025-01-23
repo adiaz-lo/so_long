@@ -40,100 +40,6 @@
 //   }
 // }
 
-// void check_map_has_minimum_size(t_mlx_player *mlx_player) {
-//   if ((mlx_player->map->rows >= 3 && mlx_player->map->columns >= 5) ||
-//       (mlx_player->map->rows >= 5 && mlx_player->map->columns >= 3))
-//     return;
-//   else
-//     throw_error(STR_INVALID_MAP_SIZE);
-// }
-
-// int check_map_rows_length_is_rectangular(t_mlx_player *mlx_player) {
-//   int           i;
-//   unsigned int  length;
-
-//   length = ft_strlen(*(mlx_player->map->map));
-//   i = 0;
-//   while (mlx_player->map->map[i]) {
-//     if (!(length == ft_strlen(mlx_player->map->map[i])))
-//       throw_error("The map has different length in its rows");
-//     i++;
-//   }
-//   return (length);
-// }
-
-// void check_map_horizontal_walls(t_mlx_player *mlx_player) {
-//   int i;
-//   int j;
-
-//   i = 0;
-//   while (mlx_player->map->map[i]) {
-//     j = 0;
-//     if (mlx_player->map->map[i][0] != '1')
-//       throw_error(STR_INVALID_HORIZONTAL_FIRST_CELL);
-//     while (mlx_player->map->map[i][j])
-//       j++;
-//     if (mlx_player->map->map[i][j - 1] != '1')
-//       throw_error(STR_INVALID_HORIZONTAL_LAST_CELL);
-//     i++;
-//   }
-// }
-
-// void check_map_surrounded_walls(t_mlx_player *mlx_player) {
-//   int i;
-
-//   i = 0;
-//   while (mlx_player->map->map[0][i] == '1')
-//     i++;
-//   if (mlx_player->map->map[0][i] != 0)
-//     throw_error("All the cells of the first row of the map aren't walls");
-//   i = 0;
-//   while (mlx_player->map->map[mlx_player->map->rows - 1][i] == '1')
-//     i++;
-//   if (mlx_player->map->map[mlx_player->map->rows - 1][i] != 0)
-//     throw_error("All the cells of the last row of the map aren't walls");
-//   check_map_horizontal_walls(mlx_player);
-// }
-
-// void check_map_game_elements(t_mlx_player *mlx_player) {
-//   int i;
-//   int j;
-//   int32_t player_number;
-//   int32_t exit_number;
-//   int32_t collectable_number;
-
-//   player_number = 0;
-//   exit_number = 0;
-//   collectable_number = 0;
-//   i = 0;
-//   while (mlx_player->map->map[i]) {
-//     j = 0;
-//     while (mlx_player->map->map[i][j]) {
-//       if (mlx_player->map->map[i][j] == 'P')
-//         player_number += 1;
-//       else if (mlx_player->map->map[i][j] == 'E')
-//         exit_number += 1;
-//       else if (mlx_player->map->map[i][j] == 'C')
-//         collectable_number += 1;
-//       else if (mlx_player->map->map[i][j] != '0' &&
-//                mlx_player->map->map[i][j] != '1' &&
-//                mlx_player->map->map[i][j] != '\n')
-//         throw_error("The map has something that doesn't belong there");
-//       j++;
-//     }
-//     i++;
-//   }
-//   if (player_number != 1 || exit_number != 1 || collectable_number < 1)
-//     throw_error("The map isn't correct in terms of map elements");
-// }
-
-// void check_map_wrong(t_mlx_player *mlx_player) {
-//   calc_map_rows_columns(mlx_player);
-//   check_map_has_minimum_size(mlx_player);
-//   check_map_rows_length_is_rectangular(mlx_player);
-//   check_map_surrounded_walls(mlx_player);
-//   check_map_game_elements(mlx_player);
-// }
 
 // /*void check_valid_map(t_mlx_player *mlx_player) {}
 // */
@@ -191,21 +97,6 @@
 //   return (rows);
 // }
 
-// void print_map(t_mlx_player *mlx_player) {
-//   int i;
-//   int j;
-
-//   i = 0;
-//   while (mlx_player->map->map[i]) {
-//     j = 0;
-//     while (mlx_player->map->map[i][j]) {
-//       printf("%c", mlx_player->map->map[i][j]);
-//       j++;
-//     }
-//     printf("\n");
-//     i++;
-//   }
-// }
 
 // void paint_map(t_mlx_player *mlx_player) {
 //   uint32_t y;
@@ -351,6 +242,7 @@ int32_t main(int argc, char **argv) {
   // map->map = malloc(size_t size);
   // map_fd = open_file(argv[1]);
   map.map = read_file(argv[1], &map);
+  check_map_wrong(&map);
   // map = init_map(map_fd);
 
   // mlx_player = malloc(sizeof(t_mlx_player));

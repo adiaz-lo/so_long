@@ -38,6 +38,15 @@ char **read_file(char *filename, t_map *map);
 void    free_map(char **map);
 int open_file(char *file);
 void    close_file(int map_fd);
-void clean(char **map);
+void clean(char **map, int map_fd);
+// void malloc_map(t_map *map);
+// void print_map(char ** map);
+void print_map(char **map, int width, int height);
+void check_map_has_minimum_size(t_map *map);
+int check_map_rows_length_is_rectangular(t_map *map);
+void check_map_horizontal_walls(t_map *map);
+void check_map_surrounded_walls(t_map *map);
+void check_map_game_elements(t_map *map);
+void check_map_wrong(t_map *map);
 
 #endif
