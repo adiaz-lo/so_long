@@ -43,7 +43,7 @@ void clean(char **map, int map_fd);
 // void print_map(char ** map);
 void print_map(char **map, int width, int height);
 void check_map_has_minimum_size(t_map *map);
-int check_map_rows_length_is_rectangular(t_map *map);
+void check_map_rows_length_is_rectangular(t_map *map);
 void check_map_horizontal_walls(t_map *map);
 void check_map_surrounded_walls(t_map *map);
 void check_map_game_elements(t_map *map);

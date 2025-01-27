@@ -8,18 +8,19 @@
 //     throw_error(STR_INVALID_MAP_SIZE);
 // }
 
-int check_map_rows_length_is_rectangular(t_map *map) {
-  int           i;
+void check_map_rows_length_is_rectangular(t_map *map) {
+  unsigned int  x;
+  unsigned int  y;
   unsigned int  length;
 
-  length = map->columns;
-  i = 0;
-  while (map->map[i]) {
-    if (!(length == ft_strlen(map->map[i])) - 1)
+  y = 0;
+  length = ft_strlen(map->map[y]);
+  while (y < map->y) {
+      x = ft_strlen(map->map[y]);
+    if (x != length)
       throw_error("The map has different length in its rows");
-    i++;
+    y++;
   }
-  return (length);
 }
 
 void check_map_horizontal_walls(t_map *map) {
@@ -48,9 +49,9 @@ void check_map_surrounded_walls(t_map *map) {
   if (map->map[0][i] != 0)
     throw_error("All the cells of the first row of the map aren't walls");
   i = 0;
-  while (map->map[map->rows - 1][i] == '1')
+  while (map->map[map->y - 1][i] == '1')
     i++;
-  if (map->map[map->rows - 1][i] != 0)
+  if (map->map[map->y - 1][i] != 0)
     throw_error("All the cells of the last row of the map aren't walls");
   check_map_horizontal_walls(map);
 }

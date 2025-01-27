@@ -3,7 +3,7 @@
 
 static void malloc_map(t_map *map)
 {
-    map->map = malloc((map->rows + 1) * sizeof(char *));
+    map->map = malloc((map->y + 1) * sizeof(char *));
     if (!map->map)
         throw_error("Error. Map memory allocation failed");
 }
@@ -14,8 +14,8 @@ void calc_map_rows_columns(char *filename, t_map *map) {
   int i;
 
   fd = open_file(filename);
-  map->rows = 0;
-  map->columns = 0;
+  map->y = 0;
+  map->x = 0;
   line = NULL;
   i = 0;
   while (1)
@@ -26,16 +26,16 @@ void calc_map_rows_columns(char *filename, t_map *map) {
             throw_error("Error. The map file is empty");
     } else if (line == NULL)
         break ;
-    else if (map->columns == 0)
+    else if (map->x == 0)
     {
-        map->columns = (ft_strlen(line)) - 1;
-        printf("Columns: %i \n", map->columns);
+        map->x = (ft_strlen(line)) - 1;
+        printf("Columns: %i \n", map->x);
         printf("Line is: %s", line);
         free(line);
     }
     i++;
   }
-  map->rows = i;
+  map->y = i;
   close(fd);
 }
 
@@ -45,11 +45,13 @@ void   trim_new_line(char **map)
     int j;
 
     i = 0;
+    j = ft_strlen(map[i]);
     while (map[i])
     {
-        j = ft_strlen(map[i]);
-        if (map[i][j - 1] == '\n')
-            map[i][j - 1] = '\0';
+            if (map[i][j - 1] == '\n')
+                map[i][j - 1] = '\0';
+                else if (map[i][j - 1] == '\0')
+                return ;
         i++;
     }
 }
@@ -63,12 +65,12 @@ char **read_file(char *filename, t_map *map)
   map->map = NULL;
   i = 0;
   calc_map_rows_columns(filename, map);
-  printf("Rows: %i \n", map->rows);
-  printf("Columns: %i \n", map->columns);
+  printf("Rows: %i \n", map->y);
+  printf("Columns: %i \n", map->x);
   malloc_map(map);
   fd = open_file(filename);
   //Recheck open failed (redundant)
-  while (i < map->rows)
+  while (i < map->y)
   {
     line = get_next_line(fd);
     //Recheck line not NULL (redundant)
@@ -80,8 +82,8 @@ char **read_file(char *filename, t_map *map)
   trim_new_line(map->map);
   map->map[i] = NULL;
   // print_map(map->map);
-  printf("Rows: %i \n", map->rows);
-  printf("Columns: %i \n", map->columns);
-  // print_map(map->map, map->columns, map->rows);
+  printf("Rows: %i \n", map->y);
+  printf("Columns: %i \n", map->x);
+  // print_map(map->map, map->x, map->y);
   return (map->map);
 }

@@ -6,8 +6,8 @@
 typedef struct s_map
 {
 	char			**map;
-	uint32_t		rows;
-	uint32_t		columns;
+	uint32_t		y;
+	uint32_t		x;
 }   t_map;
 
 typedef struct  s_textures
