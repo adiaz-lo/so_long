@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-void check_valid_map(t_mlx_player *mlx_player)
+void check_map_valid(char **map)
 {
-    printf(const char *__restrict format, ...);
+
 }

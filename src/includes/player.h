@@ -2,6 +2,14 @@
 # define PLAYER_H
 
 # include "common.h"
+#include <cstdint>
+
+typedef struct s_node
+{
+    uint32_t            y;
+    uint32_t            x;
+    struct t_node      *representative;
+}   t_node;
 
 typedef struct s_map
 {

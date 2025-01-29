@@ -9,45 +9,10 @@
 //   printf("%s:%i\n", __FILE__, __LINE__);
 // }
 
-// void calc_map_rows_columns(t_mlx_player *mlx_player) {
-//   int i;
-//   int j;
-
-//   i = 0;
-//   while (mlx_player->map->map[0][i])
-//     i++;
-//   j = 0;
-//   while (mlx_player->map->map[j])
-//     j++;
-//   mlx_player->map->columns = i;
-//   mlx_player->map->rows = j;
-// }
-
-// void malloc_map(int length, int rows, t_mlx_player *mlx_player) {
-//   int i;
-//   int j;
-
-//   i = 0;
-//   while (i < rows) {
-//     j = 0;
-//     while (j < length) {
-//       mlx_player->map->map[i] = malloc(((length + 1) * sizeof(char)));
-//       if (!mlx_player->map->map[i])
-//         throw_error("The memory allocation of the cell has failed");
-//       j++;
-//     }
-//     i++;
-//   }
-// }
-
-
-// /*void check_valid_map(t_mlx_player *mlx_player) {}
-// */
-
-// void check_map(t_mlx_player *mlx_player) {
-//   check_map_wrong(mlx_player);
-// //  check_valid_map(mlx_player);
-// }
+ void check_map(t_mlx_player *mlx_player) {
+    check_map_wrong(&map);
+    check_map_valid(&map);
+}
 
 // //Check empty file, file exists, errors returns fd of map
 // int read_map(t_mlx_player *mlx_player, char *map) {
@@ -242,7 +207,7 @@ int32_t main(int argc, char **argv) {
   // map->map = malloc(size_t size);
   // map_fd = open_file(argv[1]);
   map.map = read_file(argv[1], &map);
-  check_map_wrong(&map);
+  check_map(&map);
   // map = init_map(map_fd);
 
   // mlx_player = malloc(sizeof(t_mlx_player));
