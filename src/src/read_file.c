@@ -59,7 +59,7 @@ void   trim_new_line(char **map)
 char **read_file(char *filename, t_map *map)
 {
   char *line;
-  uint32_t   i;
+  int32_t   i;
   int fd;
 
   map->map = NULL;

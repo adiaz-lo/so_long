@@ -8,7 +8,7 @@ LIB_FLAGS = -Llib/Libft -lft -Llib/MLX42/build -lmlx42 -ldl -lglfw -pthread -lm
 ARFLAGS = -rcs
 RM = rm -f
 GNL_SRCS = get_next_line.c
-SRCS = so_long.c init.c read_file.c throw_error.c close_file.c free_map.c clean.c open_file.c print_map.c check_map_wrong.c
+SRCS = so_long.c init.c read_file.c throw_error.c close_file.c free_map.c clean.c open_file.c print_map.c check_map_wrong.c check_map_valid.c
 GNL_DIR_PREFIX = $(addprefix $(GNL_SRC_DIR), $(GNL_SRCS))
 DIR_PREFIX = $(addprefix $(SRCS_DIR), $(SRCS))
 GNL_OBJS = $(GNL_DIR_PREFIX:.c=.o)

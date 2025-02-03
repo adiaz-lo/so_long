@@ -9,9 +9,9 @@
 // }
 
 void check_map_rows_length_is_rectangular(t_map *map) {
-  unsigned int  x;
-  unsigned int  y;
-  unsigned int  length;
+  int32_t  x;
+  int32_t  y;
+  int32_t  length;
 
   y = 0;
   length = ft_strlen(map->map[y]);
@@ -57,8 +57,8 @@ void check_map_surrounded_walls(t_map *map) {
 }
 
 void check_map_game_elements(t_map *map) {
-  int i;
-  int j;
+  int32_t i;
+  int32_t j;
   int32_t player_number;
   int32_t exit_number;
   int32_t collectable_number;

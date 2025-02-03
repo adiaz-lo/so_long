@@ -9,9 +9,9 @@
 //   printf("%s:%i\n", __FILE__, __LINE__);
 // }
 
- void check_map(t_mlx_player *mlx_player) {
+ void check_map(t_map map, t_player player) {
     check_map_wrong(&map);
-    check_map_valid(&map);
+    check_map_valid(&map, player);
 }
 
 // //Check empty file, file exists, errors returns fd of map
@@ -197,7 +197,8 @@ int validate_map_name(char *map_name) {
 int32_t main(int argc, char **argv) {
   // t_mlx_player *mlx_player; // It
   // int map_fd;
-  t_map map;
+  t_map     map;
+  t_player  player;
 
   if (argc != 2)
     throw_error("The number of arguments you've inputed is different than 2, "
@@ -207,7 +208,7 @@ int32_t main(int argc, char **argv) {
   // map->map = malloc(size_t size);
   // map_fd = open_file(argv[1]);
   map.map = read_file(argv[1], &map);
-  check_map(&map);
+  check_map(map, player);
   // map = init_map(map_fd);
 
   // mlx_player = malloc(sizeof(t_mlx_player));
