@@ -46,6 +46,8 @@ void   trim_new_line(char **map)
 
     i = 0;
     j = ft_strlen(map[i]);
+    if (!map[i])
+        throw_error("The map seems to be ");
     while (map[i])
     {
             if (map[i][j - 1] == '\n')
