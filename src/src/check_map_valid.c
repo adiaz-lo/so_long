@@ -42,7 +42,7 @@ printf("Flood-Fill Print Test\n");
 
 void check_map_valid(t_map *map, t_player player)
 {
-    printf("Player position is: %d-%d", player.y, player.x);
     find_player_position(map, player);
     floodFillRecursive(map, player.x, player.y, player);
+    printf("Player position is: %d-%d", player.y, player.x);
 }

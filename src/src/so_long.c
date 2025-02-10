@@ -208,6 +208,7 @@ int32_t main(int argc, char **argv) {
   // map->map = malloc(size_t size);
   // map_fd = open_file(argv[1]);
   map.map = read_file(argv[1], &map);
+  init_player(t_player player);
   check_map(map, player);
   // map = init_map(map_fd);
 

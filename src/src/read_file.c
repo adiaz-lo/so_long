@@ -54,6 +54,7 @@ void   trim_new_line(char **map)
                 map[i][j - 1] = '\0';
                 else if (map[i][j - 1] == '\0')
                 return ;
+            printf("Rows: %s \n", map[i]);
         i++;
     }
 }
@@ -81,8 +82,8 @@ char **read_file(char *filename, t_map *map)
     // free(line);
     i++;
   }
-  trim_new_line(map->map);
   map->map[i] = NULL;
+  trim_new_line(map->map);
   // print_map(map->map);
   printf("Rows: %i \n", map->y);
   printf("Columns: %i \n", map->x);
