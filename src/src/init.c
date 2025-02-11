@@ -1,14 +1,24 @@
 #include "so_long.h"
 
-// t_player *init_player(t_mlx_player *mlx_player) {
-//   mlx_player->player = malloc(sizeof(t_player));
-//   mlx_player->player->x = 0;
-//   mlx_player->player->y = 0;
-//   mlx_player->player->texture = mlx_load_png("./sprites/tuxy_resized.png");
-//   mlx_player->player->image_tuxy =
-//       mlx_texture_to_image(mlx_player->mlx, mlx_player->player->texture);
-//   return (mlx_player->player);
+// t_player *init_player(t_player player) {
+//   player = malloc(sizeof(t_player));
+//   player.x = 0;
+//   player.y = 0;
+//   player->player_tex = mlx_load_png("./sprites/tuxy_resized.png");
+//   player->player_img = NULL;
+//       // mlx_texture_to_image(mlx, player->texture);
+//   return (player);
 // }
+
+void init_player(t_player player) {
+  player = malloc(sizeof(t_player));
+  player.x = 0;
+  player.y = 0;
+  player->player_tex = mlx_load_png("./sprites/tuxy_resized.png");
+  player->player_img = NULL;
+      // mlx_texture_to_image(mlx, player->texture);
+}
+
 //*init_textures(t)
 /*{
 mlx_player->map->floor_tex = mlx_load_png("./sprites/floor.png");
