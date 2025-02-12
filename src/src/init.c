@@ -10,10 +10,10 @@
 //   return (player);
 // }
 
-void init_player(t_player player) {
+void init_player(t_player *player) {
   player = malloc(sizeof(t_player));
-  player.x = 0;
-  player.y = 0;
+  player->x = 0;
+  player->y = 0;
   player->player_tex = mlx_load_png("./sprites/tuxy_resized.png");
   player->player_img = NULL;
       // mlx_texture_to_image(mlx, player->texture);
