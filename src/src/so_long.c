@@ -9,7 +9,7 @@
 //   printf("%s:%i\n", __FILE__, __LINE__);
 // }
 
- void check_map(t_map map, t_player player) {
+ void check_map(t_map map, t_player *player) {
     check_map_wrong(&map);
     check_map_valid(&map, player);
 }
@@ -207,10 +207,10 @@ int32_t main(int argc, char **argv) {
     throw_error("The map file you've tried isn't a *.ber file");
   // map->map = malloc(size_t size);
   // map_fd = open_file(argv[1]);
-  map.map = read_file(argv[1], &map);
-  init_player(player);
-  check_map(map, player);
+  read_file(argv[1], &map);
+  init_player(&player);
   // map = init_map(map_fd);
+  check_map(map, &player);
 
   // mlx_player = malloc(sizeof(t_mlx_player));
   // mlx_player->mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);

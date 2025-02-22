@@ -49,8 +49,8 @@ void print_map(char **map, int width, int height)
                 case '0':
                     printf(COLOR_EMPTY "0" COLOR_RESET);
                     break;
-                case 'Y':
-                    printf(COLOR_TERRAIN "Y" COLOR_RESET);
+                case 'F':
+                    printf(COLOR_TERRAIN "F" COLOR_RESET);
                     break;
                 default:
                     printf("%c", tile);

@@ -59,7 +59,7 @@ void   trim_new_line(char **map)
     }
 }
 
-char **read_file(char *filename, t_map *map)
+void read_file(char *filename, t_map *map)
 {
   char *line;
   int32_t   i;
@@ -88,5 +88,4 @@ char **read_file(char *filename, t_map *map)
   printf("Rows: %i \n", map->y);
   printf("Columns: %i \n", map->x);
   // print_map(map->map, map->x, map->y);
-  return (map->map);
 }

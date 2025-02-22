@@ -5,3 +5,4 @@ Rodeado de muro el mapa (1)
 Mapa rectangular (columnas y filas tienen el mismo número de posiciones)
 - Comprobación mapa válido:
 Camino válido
+**Check inverted y/x in the map assignation**

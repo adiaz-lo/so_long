@@ -35,7 +35,7 @@
 void    init_player(t_player *player);
 // t_map init_map(int map_fd);
 void throw_error(char *string_error);
-char **read_file(char *filename, t_map *map);
+void    read_file(char *filename, t_map *map);
 void    free_map(char **map);
 int open_file(char *file);
 void    close_file(int map_fd);
@@ -49,6 +49,6 @@ void check_map_horizontal_walls(t_map *map);
 void check_map_surrounded_walls(t_map *map);
 void check_map_game_elements(t_map *map);
 void check_map_wrong(t_map *map);
-void    check_map_valid(t_map *map, t_player player);
+void    check_map_valid(t_map *map, t_player *player);
 
 #endif
