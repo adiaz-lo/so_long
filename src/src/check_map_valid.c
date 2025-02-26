@@ -46,6 +46,7 @@ char    **copy_map(char **map, int32_t width, int32_t height)
     int     y;
     int     x;
 
+
     map_copy = malloc(sizeof(char) * (width + 1) * (height + 1));
     y = 0;
     while (y < height)
