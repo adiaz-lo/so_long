@@ -6,3 +6,6 @@ Mapa rectangular (columnas y filas tienen el mismo número de posiciones)
 - Comprobación mapa válido:
 Camino válido
 **Check inverted y/x in the map assignation**
+Use malloc for height copy_map & strdup for each column, instead of doing a complete copy, char by char
+Print copied map when finished, to check flood-fill has been successfully applied
+Free copied map, when finished using it, to avoid leaks
