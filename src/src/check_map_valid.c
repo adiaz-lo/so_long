@@ -44,20 +44,13 @@ char    **copy_map(char **map, int32_t width, int32_t height)
 {
     char    **map_copy;
     int     y;
-    int     x;
 
 
     map_copy = malloc(sizeof(char) * (width + 1) * (height + 1));
     y = 0;
     while (y < height)
     {
-        x = 0;
-        while (x < width - 1)
-        {
-            map_copy[y][x] = map[y][x];
-            x++;
-        }
-        map_copy[y][x] = '\0';
+        map_copy[y] = ft_strdup(map[y]);
         y++;
     }
     map_copy[y] = NULL;
@@ -92,7 +85,8 @@ void check_map_valid(t_map *map, t_player *player)
     map_copy = copy_map(map->map, map->x, map->y);
     find_player_position(map, player);
     floodFillRecursive(map_copy, player->x, player->y, player);
+    print_map(map_copy, map->x, map->y);
     check_map_flooded(map_copy);
-    print_map(map_copy, map->y, map->x);
-    printf("Player position is: %d-%d", player->y, player->x);
+    // print_map(map_copy, map->y, map->x);
+    printf("Player position is: %d-%d\n", player->y, player->x);
 }

@@ -189,6 +189,7 @@ int validate_map_name(char *map_name) {
   // Check
   map_extension = ft_substr(map_name, ft_strlen(map_name) - size, size);
   result = ft_strncmp(".ber", map_extension, size);
+  free(map_extension);
   if (result == 0)
     return (1);
   return (0);
