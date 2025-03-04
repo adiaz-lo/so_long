@@ -17,7 +17,7 @@ void init_player(t_player *player) {
   player->speed = 1;
   player->player_tex = mlx_load_png("./sprites/tuxy_resized.png");
   player->player_img = NULL;
-      // mlx_texture_to_image(mlx, player->texture);
+  // mlx_texture_to_image(mlx, player->texture);
 }
 
 //*init_textures(t)
@@ -38,10 +38,15 @@ mlx_load_png("./sprites/arch_transparent_borders.png");
      }*/
 
 // void init_map(char *mapfile, t_map *map) {
-  // mlx_player->map = malloc(1 * sizeof(t_map));
-  // mlx_player->map->cell_nu = 0;
-  // mlx_player->map->map = ft_split(read_file(map_fd), '\n');
-    // map.map = read_file(mapfile, &map);
-  // Abre el mapa, lee el mapa, cierra el mapa y retorna el mapa
-  // return (mlx_player->map);
+// mlx_player->map = malloc(1 * sizeof(t_map));
+// mlx_player->map->cell_nu = 0;
+// mlx_player->map->map = ft_split(read_file(map_fd), '\n');
+// map.map = read_file(mapfile, &map);
+// Abre el mapa, lee el mapa, cierra el mapa y retorna el mapa
+// return (mlx_player->map);
 // }
+
+void init_game(t_game *game, t_map *map, t_player *player) {
+  game->map = map;
+  game->player = player;
+}

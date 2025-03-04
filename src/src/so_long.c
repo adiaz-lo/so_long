@@ -199,6 +199,7 @@ int32_t main(int argc, char **argv) {
   // int map_fd;
   t_map map;
   t_player player;
+  t_game game;
 
   if (argc != 2)
     throw_error("The number of arguments you've inputed is different than 2, "
@@ -211,6 +212,9 @@ int32_t main(int argc, char **argv) {
   init_player(&player);
   // map = init_map(map_fd);
   check_map(map, &player);
+  init_game(&game, &map, &player);
+  game.mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
+  // mlx_key_hook(game.mlx, &my_keyhook, game);
 
   // mlx_player = malloc(sizeof(t_mlx_player));
   // mlx_player->mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
@@ -227,7 +231,7 @@ int32_t main(int argc, char **argv) {
   // mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
   // swap_layers(mlx_player);
 
-  // mlx_loop(mlx_player->mlx);
+  mlx_loop(game.mlx);
   // destroy_player(mlx_player);
   // free(mlx_player->player);
   // mlx_terminate(mlx_player->mlx);
