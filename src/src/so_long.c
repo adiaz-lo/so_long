@@ -9,9 +9,9 @@
 //   printf("%s:%i\n", __FILE__, __LINE__);
 // }
 
- void check_map(t_map map, t_player *player) {
-    check_map_wrong(&map);
-    check_map_valid(&map, player);
+void check_map(t_map map, t_player *player) {
+  check_map_wrong(&map);
+  check_map_valid(&map, player);
 }
 
 // //Check empty file, file exists, errors returns fd of map
@@ -61,7 +61,6 @@
 //  // mlx_player->map->cell_nu = rows * mlx_player->map->columns;
 //   return (rows);
 // }
-
 
 // void paint_map(t_mlx_player *mlx_player) {
 //   uint32_t y;
@@ -198,8 +197,8 @@ int validate_map_name(char *map_name) {
 int32_t main(int argc, char **argv) {
   // t_mlx_player *mlx_player; // It
   // int map_fd;
-  t_map     map;
-  t_player  player;
+  t_map map;
+  t_player player;
 
   if (argc != 2)
     throw_error("The number of arguments you've inputed is different than 2, "
