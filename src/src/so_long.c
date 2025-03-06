@@ -1,8 +1,8 @@
 #include "so_long.h"
 
-// void destroy_player(t_mlx_player *mlx_player) {
+// void destroy_player(t_game *game) {
 //   printf("Testing the limits %s %i\n", __FILE__, __LINE__);
-//   mlx_delete_image(mlx_player->mlx, mlx_player->player->image_tuxy);
+//   mlx_delete_image(game->mlx, game->player->player_img);
 //   printf("Testing the limits %s %i\n", __FILE__, __LINE__);
 //   printf("Testing the limits %s %i\n", __FILE__, __LINE__);
 //   printf("%s:%i\n", __FILE__, __LINE__);
@@ -15,7 +15,7 @@ void check_map(t_map map, t_player *player) {
 }
 
 // //Check empty file, file exists, errors returns fd of map
-// int read_map(t_mlx_player *mlx_player, char *map) {
+// int read_map(t_game *game, char *map) {
 //   int rows;
 //   int map_fd;
 //   char *line;
@@ -34,67 +34,67 @@ void check_map(t_map map, t_player *player) {
 //     line = get_next_line(map_fd);
 //   }
 //   printf("Rows' value is: %i %s %i\n", rows, __FILE__, __LINE__);
-//   malloc_map(length, rows, mlx_player);
+//   malloc_map(length, rows, game);
 //   close(map_fd);
 //   map_fd = open(map, O_RDONLY);
 //   if (map_fd == -1)
 //     return (1);
 //   line = get_next_line(map_fd);
 //   printf("Debug number 42: %s %i\n", __FILE__, __LINE__);
-// //  mlx_player->map->cell_nu = (rows * (ft_strlen(line) - 1)) + 1;
+// //  game->map->cell_nu = (rows * (ft_strlen(line) - 1)) + 1;
 //   i = rows - 2;
-//   mlx_player->map->map[i] = line;
+//   game->map->map[i] = line;
 //   while (i >= 0) {
 //     line = get_next_line(map_fd);
-//     mlx_player->map->map[i] = line;
+//     game->map->map[i] = line;
 //     printf("Debugging Map Reading %i ---------- %s\n", i,
-//     mlx_player->map->map[i]); i--;
+//     game->map->map[i]); i--;
 //   }
 
-//   mlx_player->map->map[rows] = NULL;
-//   printf("Debugging Map Reading ---------- %s\n", mlx_player->map->map[0]);
+//   game->map->map[rows] = NULL;
+//   printf("Debugging Map Reading ---------- %s\n", game->map->map[0]);
 //   close(map_fd);
-//   mlx_player->map->rows = rows;
-//   mlx_player->map->columns =
-//       ft_strlen(mlx_player->map->map[0]) - 1; // Resta 1 para no contar el
+//   game->map->rows = rows;
+//   game->map->columns =
+//       ft_strlen(game->map->map[0]) - 1; // Resta 1 para no contar el
 //       '\n'
-//  // mlx_player->map->cell_nu = rows * mlx_player->map->columns;
+//  // game->map->cell_nu = rows * game->map->columns;
 //   return (rows);
 // }
 
-// void paint_map(t_mlx_player *mlx_player) {
+// void paint_map(t_game *game) {
 //   uint32_t y;
 //   uint32_t x;
 //   y = 0;
-//   while (y < mlx_player->map->rows) {
+//   while (y < game->map->rows) {
 //     x = 0;
-//     while (x < mlx_player->map->columns) {
-//       if ((mlx_player->map->map[y][x]) == '0') {
-//   //      mlx_image_to_window(mlx_player->mlx, mlx_player->map->floor_img,
+//     while (x < game->map->columns) {
+//       if ((game->map->map[y][x]) == '0') {
+//   //      mlx_image_to_window(game->mlx, game->map->floor_img,
 //     //        y * TILE_SIZE, x * TILE_SIZE);
 //         printf("Printing the floor times: %i %s %i\n", (int)x,
 //         __FILE__,__LINE__);
-//       } else if ((mlx_player->map->map[y][x]) == '1') {
-//      //   mlx_image_to_window(mlx_player->mlx, mlx_player->map->wall_img,
+//       } else if ((game->map->map[y][x]) == '1') {
+//      //   mlx_image_to_window(game->mlx, game->map->wall_img,
 //      //       y * TILE_SIZE, x * TILE_SIZE);
-//       } else if ((mlx_player->map->map[y][x]) == 'P') {
-//         mlx_player->player->x = x;
-//         mlx_player->player->y = y;
+//       } else if ((game->map->map[y][x]) == 'P') {
+//         game->player->x = x;
+//         game->player->y = y;
 //         printf("Printing x: %i | y: %i | %s %i\n", x, y, __FILE__, __LINE__);
-//         // mlx_image_to_window(mlx_player->mlx, mlx_player->map->floor_img,
+//         // mlx_image_to_window(game->mlx, game->map->floor_img,
 //                             // y * TILE_SIZE, x * TILE_SIZE);
-//         // mlx_image_to_window(mlx_player->mlx,
-//         mlx_player->player->image_tuxy,
+//         // mlx_image_to_window(game->mlx,
+//         game->player->player_img,
 //                             // y * TILE_SIZE, x * TILE_SIZE);
-//       } else if ((mlx_player->map->map[y][x]) == 'C') {
-//         // mlx_image_to_window(mlx_player->mlx, mlx_player->map->floor_img,
+//       } else if ((game->map->map[y][x]) == 'C') {
+//         // mlx_image_to_window(game->mlx, game->map->floor_img,
 //                             // y * TILE_SIZE, x * TILE_SIZE);
-//         // mlx_image_to_window(mlx_player->mlx, mlx_player->map->collec_img,
+//         // mlx_image_to_window(game->mlx, game->map->collec_img,
 //                             // y * TILE_SIZE, x * TILE_SIZE);
-//       } else if ((mlx_player->map->map[y][x]) == 'E') {
-//         // mlx_image_to_window(mlx_player->mlx, mlx_player->map->floor_img,
+//       } else if ((game->map->map[y][x]) == 'E') {
+//         // mlx_image_to_window(game->mlx, game->map->floor_img,
 //                             // y * TILE_SIZE, x * TILE_SIZE);
-//         // mlx_image_to_window(mlx_player->mlx, mlx_player->map->image_exit,
+//         // mlx_image_to_window(game->mlx, game->map->image_exit,
 //         //                     y * TILE_SIZE, x * TILE_SIZE);
 //       }
 //       printf("Printing the colum value: %i %s %i\n", (int)x, __FILE__,
@@ -105,79 +105,77 @@ void check_map(t_map map, t_player *player) {
 //   }
 // }
 
-// /*void swap_layers(t_mlx_player *mlx_player) {
-//   mlx_set_instance_depth(mlx_player->player->image_tuxy->instances,
-//                          mlx_player->map->cell_nu);
-//   printf("The cell numbers value is: %i %s %i\n", mlx_player->map->cell_nu,
+// /*void swap_layers(t_game *game) {
+//   mlx_set_instance_depth(game->player->player_img->instances,
+//                          game->map->cell_nu);
+//   printf("The cell numbers value is: %i %s %i\n", game->map->cell_nu,
 //   __FILE__, __LINE__);
 //   }*/
 
-// void move_player_right(t_mlx_player *mlx_player) {
-//   printf("Testing the right movement %s %i\n", __FILE__, __LINE__);
-//   mlx_player->player->x += TILE_SIZE;
-//   mlx_player->player->image_tuxy->instances->x += TILE_SIZE;
-// }
+void move_player_right(t_game *game) {
+  printf("Testing the right movement %s %i\n", __FILE__, __LINE__);
+  game->player->x += TILE_SIZE;
+  game->player->player_img->instances->x += TILE_SIZE;
+}
 
-// void move_player_left(t_mlx_player *mlx_player) {
-//   mlx_player->player->x -= TILE_SIZE;
-//   mlx_player->player->image_tuxy->instances->x -= TILE_SIZE;
-// }
+void move_player_left(t_game *game) {
+  game->player->x -= TILE_SIZE;
+  game->player->player_img->instances->x -= TILE_SIZE;
+}
 
-// void move_player_down(t_mlx_player *mlx_player) {
-//   mlx_player->player->y += TILE_SIZE;
-//   mlx_player->player->image_tuxy->instances->y += TILE_SIZE;
-// }
+void move_player_down(t_game *game) {
+  game->player->y += TILE_SIZE;
+  game->player->player_img->instances->y += TILE_SIZE;
+}
 
-// void move_player_up(t_mlx_player *mlx_player) {
-//   mlx_player->player->y -= TILE_SIZE;
-//   mlx_player->player->image_tuxy->instances->y -= TILE_SIZE;
-// }
+void move_player_up(t_game *game) {
+  game->player->y -= TILE_SIZE;
+  game->player->player_img->instances->y -= TILE_SIZE;
+}
 
-// void my_keyhook(mlx_key_data_t keydata, void *param) {
-//   t_mlx_player *mlx_player = (t_mlx_player *)param;
-//   if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-//     mlx_close_window(mlx_player->mlx);
-//   if (keydata.key == MLX_KEY_D &&
-//       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-//     printf("Testing width %i %s %i\n", mlx_player->mlx->width, __FILE__,
-//            __LINE__);
-//     printf("Testing the D key pressed %s %i\n", __FILE__, __LINE__);
-//     if ((mlx_player->player->x + mlx_player->player->image_tuxy->width)
-//         > (uint32_t)mlx_player->mlx->width)
-//     {
-//       printf("Testing the D keypress %s %i\n", __FILE__, __LINE__);
-//       return;
-//     }
-//     move_player_right(mlx_player);
-//     printf("x coordinate value: %d\n", mlx_player->player->x);
-//     printf("Canvas Width: %d\n", mlx_player->player->x);
-//     printf("Image Width: %d\n", mlx_player->player->x);
-//   }
-//   if (keydata.key == MLX_KEY_S &&
-//       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-//     printf("Testing the limits\n");
-//     if ((mlx_player->player->y + mlx_player->player->image_tuxy->height)
-//         > (uint32_t)mlx_player->mlx->height)
-//       return;
-//     printf("Testing the limits\n");
-//     move_player_down(mlx_player);
-//     printf("%d\n", mlx_player->player->y);
-//   }
-//   if (keydata.key == MLX_KEY_A &&
-//       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-//     if ((mlx_player->player->x - mlx_player->player->image_tuxy->width)
-//         <= (uint32_t)mlx_player->mlx->width)
-//       return;
-//     move_player_left(mlx_player);
-//   }
-//   if (keydata.key == MLX_KEY_W &&
-//       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-//     if ((mlx_player->player->y - mlx_player->player->image_tuxy->height)
-//         <= (uint32_t)mlx_player->mlx->height)
-//       return;
-//     move_player_up(mlx_player);
-//   }
-// }
+void my_keyhook(mlx_key_data_t keydata, void *param) {
+  t_game *game = (t_game *)param;
+  if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+    mlx_close_window(game->mlx);
+  if (keydata.key == MLX_KEY_D &&
+      (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
+    printf("Testing width %i %s %i\n", game->mlx->width, __FILE__, __LINE__);
+    printf("Testing the D key pressed %s %i\n", __FILE__, __LINE__);
+    if ((game->player->x + game->player->player_img->width) >
+        (uint32_t)game->mlx->width) {
+      printf("Testing the D keypress %s %i\n", __FILE__, __LINE__);
+      return;
+    }
+    move_player_right(game);
+    printf("x coordinate value: %d\n", game->player->x);
+    printf("Canvas Width: %d\n", game->player->x);
+    printf("Image Width: %d\n", game->player->x);
+  }
+  if (keydata.key == MLX_KEY_S &&
+      (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
+    printf("Testing the limits\n");
+    if ((game->player->y + game->player->player_img->height) >
+        (uint32_t)game->mlx->height)
+      return;
+    printf("Testing the limits\n");
+    move_player_down(game);
+    printf("%d\n", game->player->y);
+  }
+  if (keydata.key == MLX_KEY_A &&
+      (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
+    if ((game->player->x - game->player->player_img->width) <=
+        (uint32_t)game->mlx->width)
+      return;
+    move_player_left(game);
+  }
+  if (keydata.key == MLX_KEY_W &&
+      (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
+    if ((game->player->y - game->player->player_img->height) <=
+        (uint32_t)game->mlx->height)
+      return;
+    move_player_up(game);
+  }
+}
 
 int validate_map_name(char *map_name) {
   char *map_extension;
@@ -195,7 +193,7 @@ int validate_map_name(char *map_name) {
 }
 
 int32_t main(int argc, char **argv) {
-  // t_mlx_player *mlx_player; // It
+  // t_game *game; // It
   // int map_fd;
   t_map map;
   t_player player;
@@ -214,27 +212,27 @@ int32_t main(int argc, char **argv) {
   check_map(map, &player);
   init_game(&game, &map, &player);
   game.mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
-  // mlx_key_hook(game.mlx, &my_keyhook, game);
+  mlx_key_hook(game.mlx, &my_keyhook, &game);
 
-  // mlx_player = malloc(sizeof(t_mlx_player));
-  // mlx_player->mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
-  // mlx_player->player = init_player(mlx_player);
-  // // mlx_player->map = init_map(mlx_player, map_fd);
-  // check_map(mlx_player);
+  // game = malloc(sizeof(t_game));
+  // game->mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
+  // game->player = init_player(game);
+  // // game->map = init_map(game, map_fd);
+  // check_map(game);
 
-  // read_map(mlx_player, argv[1]);
-  // if (mlx_player->map->map == NULL)
+  // read_map(game, argv[1]);
+  // if (game->map->map == NULL)
   //   return (printf("Could not read map\n"));
-  // print_map(mlx_player);
-  // paint_map(mlx_player);
+  // print_map(game);
+  // paint_map(game);
 
-  // mlx_key_hook(mlx_player->mlx, &my_keyhook, mlx_player);
-  // swap_layers(mlx_player);
+  // mlx_key_hook(game->mlx, &my_keyhook, game);
+  // swap_layers(game);
 
   mlx_loop(game.mlx);
-  // destroy_player(mlx_player);
-  // free(mlx_player->player);
-  // mlx_terminate(mlx_player->mlx);
+  // destroy_player(game);
+  // free(game->player);
+  // mlx_terminate(game->mlx);
   // close(map_fd);
   // clean(map.map, map_fd);
   // clean(map.map);
