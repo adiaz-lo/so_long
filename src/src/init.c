@@ -20,22 +20,21 @@ void init_player(t_player *player) {
   // mlx_texture_to_image(mlx, player->texture);
 }
 
-//*init_textures(t)
-/*{
-mlx_player->map->floor_tex = mlx_load_png("./sprites/floor.png");
- mlx_player->map->floor_img =
-     mlx_texture_to_image(mlx_player->mlx, mlx_player->map->floor_tex);
- mlx_player->map->wall_tex = mlx_load_png("./sprites/wall_final.png");
- mlx_player->map->wall_img =
-     mlx_texture_to_image(mlx_player->mlx, mlx_player->map->wall_tex);
- mlx_player->map->collec_tex = mlx_load_png("./sprites/win.png");
- mlx_player->map->collec_img = mlx_texture_to_image(
-     mlx_player->mlx, mlx_player->map->collec_tex);
- mlx_player->map->texture_exit =
-mlx_load_png("./sprites/arch_transparent_borders.png");
- mlx_player->map->image_exit =
-     mlx_texture_to_image(mlx_player->mlx, mlx_player->map->texture_exit);
-     }*/
+void init_textures(t_game *game) {
+  game->map->textures->floor_tex = mlx_load_png("./sprites/floor.png");
+  game->map->textures->floor_img =
+      mlx_texture_to_image(game->mlx, game->map->textures->floor_tex);
+  game->map->textures->wall_tex = mlx_load_png("./sprites/wall_final.png");
+  game->map->textures->wall_img =
+      mlx_texture_to_image(game->mlx, game->map->textures->wall_tex);
+  game->map->textures->collec_tex = mlx_load_png("./sprites/win.png");
+  game->map->textures->collec_img =
+      mlx_texture_to_image(game->mlx, game->map->textures->collec_tex);
+  game->map->textures->exit_tex =
+      mlx_load_png("./sprites/arch_transparent_borders.png");
+  game->map->textures->exit_img =
+      mlx_texture_to_image(game->mlx, game->map->textures->exit_tex);
+}
 
 // void init_map(char *mapfile, t_map *map) {
 // mlx_player->map = malloc(1 * sizeof(t_map));
@@ -46,7 +45,8 @@ mlx_load_png("./sprites/arch_transparent_borders.png");
 // return (mlx_player->map);
 // }
 
-void init_game(t_game *game, t_map *map, t_player *player) {
+void init_game(t_game *game, t_map *map, t_player *player, t_textures *tex) {
   game->map = map;
   game->player = player;
+  game->map->textures = tex;
 }

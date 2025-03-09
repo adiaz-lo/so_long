@@ -62,48 +62,49 @@ void check_map(t_map map, t_player *player) {
 //   return (rows);
 // }
 
-// void paint_map(t_game *game) {
-//   uint32_t y;
-//   uint32_t x;
-//   y = 0;
-//   while (y < game->map->rows) {
-//     x = 0;
-//     while (x < game->map->columns) {
-//       if ((game->map->map[y][x]) == '0') {
-//   //      mlx_image_to_window(game->mlx, game->map->floor_img,
-//     //        y * TILE_SIZE, x * TILE_SIZE);
-//         printf("Printing the floor times: %i %s %i\n", (int)x,
-//         __FILE__,__LINE__);
-//       } else if ((game->map->map[y][x]) == '1') {
-//      //   mlx_image_to_window(game->mlx, game->map->wall_img,
-//      //       y * TILE_SIZE, x * TILE_SIZE);
-//       } else if ((game->map->map[y][x]) == 'P') {
-//         game->player->x = x;
-//         game->player->y = y;
-//         printf("Printing x: %i | y: %i | %s %i\n", x, y, __FILE__, __LINE__);
-//         // mlx_image_to_window(game->mlx, game->map->floor_img,
-//                             // y * TILE_SIZE, x * TILE_SIZE);
-//         // mlx_image_to_window(game->mlx,
-//         game->player->player_img,
-//                             // y * TILE_SIZE, x * TILE_SIZE);
-//       } else if ((game->map->map[y][x]) == 'C') {
-//         // mlx_image_to_window(game->mlx, game->map->floor_img,
-//                             // y * TILE_SIZE, x * TILE_SIZE);
-//         // mlx_image_to_window(game->mlx, game->map->collec_img,
-//                             // y * TILE_SIZE, x * TILE_SIZE);
-//       } else if ((game->map->map[y][x]) == 'E') {
-//         // mlx_image_to_window(game->mlx, game->map->floor_img,
-//                             // y * TILE_SIZE, x * TILE_SIZE);
-//         // mlx_image_to_window(game->mlx, game->map->image_exit,
-//         //                     y * TILE_SIZE, x * TILE_SIZE);
-//       }
-//       printf("Printing the colum value: %i %s %i\n", (int)x, __FILE__,
-//       __LINE__); x++;
-//     }
-//     printf("Printing the row value: %i %s %i\n", (int)y, __FILE__, __LINE__);
-//     y++;
-//   }
-// }
+void paint_map(t_game *game) {
+  int32_t y;
+  int32_t x;
+  y = 0;
+
+  while (y < game->map->y) {
+    x = 0;
+    while (x < game->map->x) {
+      if ((game->map->map[y][x]) == '0') {
+        mlx_image_to_window(game->mlx, game->map->textures->floor_img,
+                            y * TILE_SIZE, x * TILE_SIZE);
+        printf("Printing the floor times: %i %s %i\n", (int)x, __FILE__,
+               __LINE__);
+      } else if ((game->map->map[y][x]) == '1') {
+        mlx_image_to_window(game->mlx, game->map->textures->wall_img,
+                            y * TILE_SIZE, x * TILE_SIZE);
+      } else if ((game->map->map[y][x]) == 'P') {
+        game->player->x = x;
+        game->player->y = y;
+        printf("Printing x: %i | y: %i | %s %i\n", x, y, __FILE__, __LINE__);
+        mlx_image_to_window(game->mlx, game->map->textures->floor_img,
+                            y * TILE_SIZE, x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->player->player_img, y * TILE_SIZE,
+                            x * TILE_SIZE);
+      } else if ((game->map->map[y][x]) == 'C') {
+        mlx_image_to_window(game->mlx, game->map->textures->floor_img,
+                            y * TILE_SIZE, x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->map->textures->collec_img,
+                            y * TILE_SIZE, x * TILE_SIZE);
+      } else if ((game->map->map[y][x]) == 'E') {
+        mlx_image_to_window(game->mlx, game->map->textures->floor_img,
+                            y * TILE_SIZE, x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->map->textures->exit_img,
+                            y * TILE_SIZE, x * TILE_SIZE);
+      }
+      printf("Printing the colum value: %i %s %i\n", (int)x, __FILE__,
+             __LINE__);
+      x++;
+    }
+    printf("Printing the row value: %i %s %i\n", (int)y, __FILE__, __LINE__);
+    y++;
+  }
+}
 
 // /*void swap_layers(t_game *game) {
 //   mlx_set_instance_depth(game->player->player_img->instances,
@@ -198,6 +199,7 @@ int32_t main(int argc, char **argv) {
   t_map map;
   t_player player;
   t_game game;
+  t_textures textures;
 
   if (argc != 2)
     throw_error("The number of arguments you've inputed is different than 2, "
@@ -210,7 +212,8 @@ int32_t main(int argc, char **argv) {
   init_player(&player);
   // map = init_map(map_fd);
   check_map(map, &player);
-  init_game(&game, &map, &player);
+  init_game(&game, &map, &player, &textures);
+  init_textures(&textures);
   game.mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
   mlx_key_hook(game.mlx, &my_keyhook, &game);
 
@@ -224,7 +227,7 @@ int32_t main(int argc, char **argv) {
   // if (game->map->map == NULL)
   //   return (printf("Could not read map\n"));
   // print_map(game);
-  // paint_map(game);
+  paint_map(&game);
 
   // mlx_key_hook(game->mlx, &my_keyhook, game);
   // swap_layers(game);

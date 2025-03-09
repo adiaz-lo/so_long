@@ -33,8 +33,9 @@
 
 // t_player *init_player(t_player player);
 void    init_player(t_player *player);
+void    init_textures();
 // t_map init_map(int map_fd);
-void    init_game(t_game *game, t_map *map, t_player *player);
+void    init_game(t_game *game, t_map *map, t_player *player, t_textures *tex);
 void throw_error(char *string_error);
 void    read_file(char *filename, t_map *map);
 void    free_map(char **map);

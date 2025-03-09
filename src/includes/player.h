@@ -3,20 +3,6 @@
 
 # include "common.h"
 
-typedef struct s_node
-{
-    uint32_t            y;
-    uint32_t            x;
-    struct t_node      *representative;
-}   t_node;
-
-typedef struct s_map
-{
-	char			**map;
-	int32_t		y;
-	int32_t		x;
-}   t_map;
-
 typedef struct  s_textures
 {
     uint32_t         x;
@@ -31,6 +17,14 @@ typedef struct  s_textures
 	mlx_texture_t   *exit_tex;
 	mlx_image_t     *exit_img;
 }   t_textures;
+
+typedef struct s_map
+{
+	char       **map;
+	int32_t    y;
+	int32_t    x;
+	t_textures *textures;
+}   t_map;
 
 typedef struct s_player
 {
