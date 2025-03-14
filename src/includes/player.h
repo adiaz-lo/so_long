@@ -36,7 +36,7 @@ typedef struct  s_textures
     // uint32_t		cell_nu;
     t_texture   player;
     t_texture   wall;
-    t_texture   collectible;
+    t_texture   collectable;
     t_texture   exit;
     t_texture   floor;
     t_texture   exit_open;

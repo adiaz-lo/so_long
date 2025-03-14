@@ -15,25 +15,16 @@ void init_player(t_player *player) {
   player->x = 0;
   player->y = 0;
   player->speed = 1;
-  player->player_tex = mlx_load_png("./sprites/tuxy_resized.png");
-  player->player_img = NULL;
+  // player->player_img = NULL;
   // mlx_texture_to_image(mlx, player->texture);
 }
 
 void init_textures(t_game *game) {
-  game->map->textures->floor_tex = mlx_load_png("./sprites/floor.png");
-  game->map->textures->floor_img =
-      mlx_texture_to_image(game->mlx, game->map->textures->floor_tex);
-  game->map->textures->wall_tex = mlx_load_png("./sprites/wall_final.png");
-  game->map->textures->wall_img =
-      mlx_texture_to_image(game->mlx, game->map->textures->wall_tex);
-  game->map->textures->collec_tex = mlx_load_png("./sprites/win.png");
-  game->map->textures->collec_img =
-      mlx_texture_to_image(game->mlx, game->map->textures->collec_tex);
-  game->map->textures->exit_tex =
-      mlx_load_png("./sprites/arch_transparent_borders.png");
-  game->map->textures->exit_img =
-      mlx_texture_to_image(game->mlx, game->map->textures->exit_tex);
+    game->textures->player->path = mlx_load_png("./sprites/player.png");
+    game->textures->floor->path = mlx_load_png("./sprites/floor.png");
+    game->textures->wall->path = mlx_load_png("./sprites/wall_final.png");
+    game->textures->collectable->path = mlx_load_png("./sprites/win.png");
+    game->textures->exit->path = mlx_load_png("./sprites/arch_transparent_borders.png");
 }
 
 // void init_map(char *mapfile, t_map *map) {
