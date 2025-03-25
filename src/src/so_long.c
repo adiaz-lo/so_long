@@ -67,35 +67,35 @@ void paint_map(t_game *game) {
   int32_t x;
   y = 0;
 
-  while (y < game->map->y) {
+  while (y < game->map.y) {
     x = 0;
-    while (x < game->map->x) {
-      if ((game->map->map[y][x]) == '0') {
-        mlx_image_to_window(game->mlx, game->map->textures->floor_img,
-                            y * TILE_SIZE, x * TILE_SIZE);
+    while (x < game->map.x) {
+      if ((game->map.map[y][x]) == '0') {
+        mlx_image_to_window(game->mlx, game->textures.floor.img, y * TILE_SIZE,
+                            x * TILE_SIZE);
         printf("Printing the floor times: %i %s %i\n", (int)x, __FILE__,
                __LINE__);
-      } else if ((game->map->map[y][x]) == '1') {
-        mlx_image_to_window(game->mlx, game->map->textures->wall_img,
-                            y * TILE_SIZE, x * TILE_SIZE);
-      } else if ((game->map->map[y][x]) == 'P') {
-        game->player->x = x;
-        game->player->y = y;
-        printf("Printing x: %i | y: %i | %s %i\n", x, y, __FILE__, __LINE__);
-        mlx_image_to_window(game->mlx, game->map->textures->floor_img,
-                            y * TILE_SIZE, x * TILE_SIZE);
-        mlx_image_to_window(game->mlx, game->player->player_img, y * TILE_SIZE,
+      } else if ((game->map.map[y][x]) == '1') {
+        mlx_image_to_window(game->mlx, game->textures.wall.img, y * TILE_SIZE,
                             x * TILE_SIZE);
-      } else if ((game->map->map[y][x]) == 'C') {
-        mlx_image_to_window(game->mlx, game->map->textures->floor_img,
+      } else if ((game->map.map[y][x]) == 'P') {
+        game->player.x = x;
+        game->player.y = y;
+        printf("Printing x: %i | y: %i | %s %i\n", x, y, __FILE__, __LINE__);
+        mlx_image_to_window(game->mlx, game->textures.floor.img, y * TILE_SIZE,
+                            x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.player.img, y * TILE_SIZE,
+                            x * TILE_SIZE);
+      } else if ((game->map.map[y][x]) == 'C') {
+        mlx_image_to_window(game->mlx, game->textures.floor.img, y * TILE_SIZE,
+                            x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.collectable.img,
                             y * TILE_SIZE, x * TILE_SIZE);
-        mlx_image_to_window(game->mlx, game->map->textures->collec_img,
-                            y * TILE_SIZE, x * TILE_SIZE);
-      } else if ((game->map->map[y][x]) == 'E') {
-        mlx_image_to_window(game->mlx, game->map->textures->floor_img,
-                            y * TILE_SIZE, x * TILE_SIZE);
-        mlx_image_to_window(game->mlx, game->map->textures->exit_img,
-                            y * TILE_SIZE, x * TILE_SIZE);
+      } else if ((game->map.map[y][x]) == 'E') {
+        mlx_image_to_window(game->mlx, game->textures.floor.img, y * TILE_SIZE,
+                            x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.exit.img, y * TILE_SIZE,
+                            x * TILE_SIZE);
       }
       printf("Printing the colum value: %i %s %i\n", (int)x, __FILE__,
              __LINE__);
@@ -115,23 +115,23 @@ void paint_map(t_game *game) {
 
 void move_player_right(t_game *game) {
   printf("Testing the right movement %s %i\n", __FILE__, __LINE__);
-  game->player->x += TILE_SIZE;
-  game->player->player_img->instances->x += TILE_SIZE;
+  game->player.x += TILE_SIZE;
+  game->textures.player.img->instances->x += TILE_SIZE;
 }
 
 void move_player_left(t_game *game) {
-  game->player->x -= TILE_SIZE;
-  game->player->player_img->instances->x -= TILE_SIZE;
+  game->player.x -= TILE_SIZE;
+  game->textures.player.img->instances->x -= TILE_SIZE;
 }
 
 void move_player_down(t_game *game) {
-  game->player->y += TILE_SIZE;
-  game->player->player_img->instances->y += TILE_SIZE;
+  game->player.y += TILE_SIZE;
+  game->textures.player.img->instances->y += TILE_SIZE;
 }
 
 void move_player_up(t_game *game) {
-  game->player->y -= TILE_SIZE;
-  game->player->player_img->instances->y -= TILE_SIZE;
+  game->player.y -= TILE_SIZE;
+  game->textures.player.img->instances->y -= TILE_SIZE;
 }
 
 void my_keyhook(mlx_key_data_t keydata, void *param) {
@@ -142,36 +142,36 @@ void my_keyhook(mlx_key_data_t keydata, void *param) {
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
     printf("Testing width %i %s %i\n", game->mlx->width, __FILE__, __LINE__);
     printf("Testing the D key pressed %s %i\n", __FILE__, __LINE__);
-    if ((game->player->x + game->player->player_img->width) >
+    if ((game->player.x + game->textures.player.img->width) >
         (uint32_t)game->mlx->width) {
       printf("Testing the D keypress %s %i\n", __FILE__, __LINE__);
       return;
     }
     move_player_right(game);
-    printf("x coordinate value: %d\n", game->player->x);
-    printf("Canvas Width: %d\n", game->player->x);
-    printf("Image Width: %d\n", game->player->x);
+    printf("x coordinate value: %d\n", game->player.x);
+    printf("Canvas Width: %d\n", game->player.x);
+    printf("Image Width: %d\n", game->player.x);
   }
   if (keydata.key == MLX_KEY_S &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
     printf("Testing the limits\n");
-    if ((game->player->y + game->player->player_img->height) >
+    if ((game->player.y + game->textures.player.img->height) >
         (uint32_t)game->mlx->height)
       return;
     printf("Testing the limits\n");
     move_player_down(game);
-    printf("%d\n", game->player->y);
+    printf("%d\n", game->player.y);
   }
   if (keydata.key == MLX_KEY_A &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    if ((game->player->x - game->player->player_img->width) <=
+    if ((game->player.x - game->textures.player.img->width) <=
         (uint32_t)game->mlx->width)
       return;
     move_player_left(game);
   }
   if (keydata.key == MLX_KEY_W &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    if ((game->player->y - game->player->player_img->height) <=
+    if ((game->player.y - game->textures.player.img->height) <=
         (uint32_t)game->mlx->height)
       return;
     move_player_up(game);
@@ -196,9 +196,9 @@ int validate_map_name(char *map_name) {
 int32_t main(int argc, char **argv) {
   // t_game *game; // It
   // int map_fd;
+  t_game game;
   t_map map;
   t_player player;
-  t_game game;
   t_textures textures;
 
   if (argc != 2)
@@ -208,11 +208,10 @@ int32_t main(int argc, char **argv) {
     throw_error("The map file you've tried isn't a *.ber file");
   // map->map = malloc(size_t size);
   // map_fd = open_file(argv[1]);
+  init_game(&game, &map, &player, &textures);
   read_file(argv[1], &map);
-  init_player(&player);
   // map = init_map(map_fd);
   check_map(map, &player);
-  init_game(&game, &map, &player, &textures);
   init_textures(&textures);
   game.mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
   mlx_key_hook(game.mlx, &my_keyhook, &game);

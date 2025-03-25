@@ -41,4 +41,5 @@ void init_game(t_game *game, t_map *map, t_player *player, t_textures *tex) {
   game->map = *map;
   game->player = *player;
   game->textures = *tex;
+  init_player(player);
 }

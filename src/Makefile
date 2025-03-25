@@ -24,7 +24,7 @@ $(NAME): $(DEPS) $(OBJS) $(GNL_OBJS)
 
 $(DEPS):
 	make -C lib/Libft
-	make -C lib/MLX42
+	# make -C lib/MLX42
 
 clean :
 	$(RM) $(OBJS) $(GNL_OBJS)
