@@ -9,9 +9,9 @@
 //   printf("%s:%i\n", __FILE__, __LINE__);
 // }
 
-void check_map(t_map map, t_player *player) {
-  check_map_wrong(&map);
-  check_map_valid(&map, player);
+void check_map(t_map *game) {
+  check_map_wrong(game->map);
+  check_map_valid(game->map, game->player);
 }
 
 // //Check empty file, file exists, errors returns fd of map
@@ -197,9 +197,6 @@ int32_t main(int argc, char **argv) {
   // t_game *game; // It
   // int map_fd;
   t_game game;
-  t_map map;
-  t_player player;
-  t_textures textures;
 
   if (argc != 2)
     throw_error("The number of arguments you've inputed is different than 2, "
@@ -208,11 +205,10 @@ int32_t main(int argc, char **argv) {
     throw_error("The map file you've tried isn't a *.ber file");
   // map->map = malloc(size_t size);
   // map_fd = open_file(argv[1]);
-  init_game(&game, &map, &player, &textures);
-  read_file(argv[1], &map);
+  init_game(&game, &game.map, &game.player, &game.textures);
+  read_file(argv[1], &game.map);
   // map = init_map(map_fd);
-  check_map(map, &player);
-  init_textures(&textures);
+  check_map(&game);
   game.mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
   mlx_key_hook(game.mlx, &my_keyhook, &game);
 

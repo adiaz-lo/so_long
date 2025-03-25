@@ -9,14 +9,14 @@
 // }
 
 void check_map_rows_length_is_rectangular(t_map *map) {
-  int32_t  x;
-  int32_t  y;
-  int32_t  length;
+  int32_t x;
+  int32_t y;
+  int32_t length;
 
   y = 0;
   length = ft_strlen(map->map[y]);
   while (y < map->y) {
-      x = ft_strlen(map->map[y]);
+    x = ft_strlen(map->map[y]);
     if (x != length)
       throw_error("The map has different length in its rows");
     y++;
@@ -76,8 +76,7 @@ void check_map_game_elements(t_map *map) {
         exit_number += 1;
       else if (map->map[i][j] == 'C')
         collectable_number += 1;
-      else if (map->map[i][j] != '0' &&
-               map->map[i][j] != '1' &&
+      else if (map->map[i][j] != '0' && map->map[i][j] != '1' &&
                map->map[i][j] != '\n')
         throw_error("The map has something that doesn't belong there");
       j++;
@@ -88,7 +87,7 @@ void check_map_game_elements(t_map *map) {
     throw_error("The map isn't correct in terms of map elements");
 }
 
-void check_map_wrong(t_map *map) {
+void check_map_wrong(t_map map) {
   // check_map_has_minimum_size(map);
   check_map_rows_length_is_rectangular(map);
   check_map_surrounded_walls(map);
