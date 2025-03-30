@@ -19,12 +19,12 @@ void init_player(t_player *player) {
   // mlx_texture_to_image(mlx, player->texture);
 }
 
-void init_textures(t_textures textures) {
-  textures.player.path = mlx_load_png("./sprites/tuxy_resized.png");
-  textures.floor.path = mlx_load_png("./sprites/floor.png");
-  textures.wall.path = mlx_load_png("./sprites/wall_final.png");
-  textures.collectable.path = mlx_load_png("./sprites/win.png");
-  textures.exit.path = mlx_load_png("./sprites/arch_transparent_borders.png");
+void init_textures(t_textures *textures) {
+  textures->player.path = mlx_load_png("./sprites/tuxy_resized.png");
+  textures->floor.path = mlx_load_png("./sprites/floor.png");
+  textures->wall.path = mlx_load_png("./sprites/wall_final.png");
+  textures->collectable.path = mlx_load_png("./sprites/win.png");
+  textures->exit.path = mlx_load_png("./sprites/arch_transparent_borders.png");
 }
 
 // void init_map(char *mapfile, t_map *map) {
@@ -40,6 +40,6 @@ void init_game(t_game *game, t_map *map, t_player *player, t_textures *tex) {
   game->map = *map;
   game->player = *player;
   game->textures = *tex;
-  init_player(game->player);
-  init_textures(game->textures);
+  init_player(&game->player);
+  init_textures(&game->textures);
 }

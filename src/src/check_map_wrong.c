@@ -87,7 +87,7 @@ void check_map_game_elements(t_map *map) {
     throw_error("The map isn't correct in terms of map elements");
 }
 
-void check_map_wrong(t_map map) {
+void check_map_wrong(t_map *map) {
   // check_map_has_minimum_size(map);
   check_map_rows_length_is_rectangular(map);
   check_map_surrounded_walls(map);

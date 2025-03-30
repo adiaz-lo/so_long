@@ -24,6 +24,8 @@ void floodFillRecursive(char **map, int32_t x, int32_t y, t_player *player) {
   // const uint32_t startX = 0;
   // const uint32_t startY = 0;
 
+  if (y < 0 || x < 0 || map[y] == NULL || map[y][x] == 0)
+    return;
   if (map[y][x] == 'F' || map[y][x] == '1')
     return;
   map[y][x] = 'F';
@@ -40,7 +42,7 @@ char **copy_map(char **map, int32_t width, int32_t height) {
   char **map_copy;
   int y;
 
-  map_copy = malloc(sizeof(char) * (width + 1) * (height + 1));
+  map_copy = malloc(sizeof(char *) * (width + 1) * (height + 1));
   y = 0;
   while (y < height) {
     map_copy[y] = ft_strdup(map[y]);

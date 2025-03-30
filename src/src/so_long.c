@@ -9,9 +9,9 @@
 //   printf("%s:%i\n", __FILE__, __LINE__);
 // }
 
-void check_map(t_map *game) {
-  check_map_wrong(game->map);
-  check_map_valid(game->map, game->player);
+void check_map(t_game *game) {
+  check_map_wrong(&game->map);
+  check_map_valid(&game->map, &game->player);
 }
 
 // //Check empty file, file exists, errors returns fd of map
@@ -71,31 +71,31 @@ void paint_map(t_game *game) {
     x = 0;
     while (x < game->map.x) {
       if ((game->map.map[y][x]) == '0') {
-        mlx_image_to_window(game->mlx, game->textures.floor.img, y * TILE_SIZE,
-                            x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.floor.img, x * TILE_SIZE,
+                            y * TILE_SIZE);
         printf("Printing the floor times: %i %s %i\n", (int)x, __FILE__,
                __LINE__);
       } else if ((game->map.map[y][x]) == '1') {
-        mlx_image_to_window(game->mlx, game->textures.wall.img, y * TILE_SIZE,
-                            x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.wall.img, x * TILE_SIZE,
+                            y * TILE_SIZE);
       } else if ((game->map.map[y][x]) == 'P') {
         game->player.x = x;
         game->player.y = y;
         printf("Printing x: %i | y: %i | %s %i\n", x, y, __FILE__, __LINE__);
-        mlx_image_to_window(game->mlx, game->textures.floor.img, y * TILE_SIZE,
-                            x * TILE_SIZE);
-        mlx_image_to_window(game->mlx, game->textures.player.img, y * TILE_SIZE,
-                            x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.floor.img, x * TILE_SIZE,
+                            y * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.player.img, x * TILE_SIZE,
+                            y * TILE_SIZE);
       } else if ((game->map.map[y][x]) == 'C') {
-        mlx_image_to_window(game->mlx, game->textures.floor.img, y * TILE_SIZE,
-                            x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.floor.img, x * TILE_SIZE,
+                            y * TILE_SIZE);
         mlx_image_to_window(game->mlx, game->textures.collectable.img,
-                            y * TILE_SIZE, x * TILE_SIZE);
+                            x * TILE_SIZE, y * TILE_SIZE);
       } else if ((game->map.map[y][x]) == 'E') {
-        mlx_image_to_window(game->mlx, game->textures.floor.img, y * TILE_SIZE,
-                            x * TILE_SIZE);
-        mlx_image_to_window(game->mlx, game->textures.exit.img, y * TILE_SIZE,
-                            x * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.floor.img, x * TILE_SIZE,
+                            y * TILE_SIZE);
+        mlx_image_to_window(game->mlx, game->textures.exit.img, x * TILE_SIZE,
+                            y * TILE_SIZE);
       }
       printf("Printing the colum value: %i %s %i\n", (int)x, __FILE__,
              __LINE__);
@@ -210,6 +210,7 @@ int32_t main(int argc, char **argv) {
   // map = init_map(map_fd);
   check_map(&game);
   game.mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);
+  convert_textures_to_images(&game);
   mlx_key_hook(game.mlx, &my_keyhook, &game);
 
   // game = malloc(sizeof(t_game));
