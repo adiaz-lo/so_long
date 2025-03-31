@@ -142,7 +142,7 @@ void my_keyhook(mlx_key_data_t keydata, void *param) {
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
     printf("Testing width %i %s %i\n", game->mlx->width, __FILE__, __LINE__);
     printf("Testing the D key pressed %s %i\n", __FILE__, __LINE__);
-    if ((game->player.x + game->textures.player.img->width) >
+    if ((game->player.x + 1 /*game->textures.player.img->width*/) >
         (uint32_t)game->mlx->width) {
       printf("Testing the D keypress %s %i\n", __FILE__, __LINE__);
       return;

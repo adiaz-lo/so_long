@@ -1,5 +1,4 @@
 #include "so_long.h"
-// #include <cstdint>
 
 static void malloc_map(t_map *map) {
   map->map = malloc((map->y + 1) * sizeof(char *));
