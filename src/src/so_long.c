@@ -113,68 +113,70 @@ void paint_map(t_game *game) {
 //   __FILE__, __LINE__);
 //   }*/
 
-void move_player_right(t_game *game) {
-  printf("Testing the right movement %s %i\n", __FILE__, __LINE__);
-  game->player.x += TILE_SIZE;
-  game->textures.player.img->instances->x += TILE_SIZE;
-}
+// void move_player_right(t_game *game) {
+//   printf("testing the right movement %s %i\n", __file__, __line__);
+//   game->player.x += tile_size;
+//   game->textures.player.img->instances->x += tile_size;
+// }
 
-void move_player_left(t_game *game) {
-  game->player.x -= TILE_SIZE;
-  game->textures.player.img->instances->x -= TILE_SIZE;
-}
+// void move_player_left(t_game *game) {
+//   game->player.x -= tile_size;
+//   game->textures.player.img->instances->x -= tile_size;
+// }
 
-void move_player_down(t_game *game) {
-  game->player.y += TILE_SIZE;
-  game->textures.player.img->instances->y += TILE_SIZE;
-}
+// void move_player_down(t_game *game) {
+//   game->player.y += tile_size;
+//   game->textures.player.img->instances->y += tile_size;
+// }
 
-void move_player_up(t_game *game) {
-  game->player.y -= TILE_SIZE;
-  game->textures.player.img->instances->y -= TILE_SIZE;
-}
+// void move_player_up(t_game *game) {
+//   game->player.y -= tile_size;
+//   game->textures.player.img->instances->y -= tile_size;
+// }
 
 void my_keyhook(mlx_key_data_t keydata, void *param) {
   t_game *game = (t_game *)param;
+  int row;
+  int col;
+
+  row = 0;
+  col = 0;
   if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
     mlx_close_window(game->mlx);
   if (keydata.key == MLX_KEY_D &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    printf("Testing width %i %s %i\n", game->mlx->width, __FILE__, __LINE__);
-    printf("Testing the D key pressed %s %i\n", __FILE__, __LINE__);
-    if ((game->player.x + 1 /*game->textures.player.img->width*/) >
-        (uint32_t)game->mlx->width) {
-      printf("Testing the D keypress %s %i\n", __FILE__, __LINE__);
-      return;
-    }
-    move_player_right(game);
-    printf("x coordinate value: %d\n", game->player.x);
-    printf("Canvas Width: %d\n", game->player.x);
-    printf("Image Width: %d\n", game->player.x);
+    row = 1;
+    move_player(game, row, col);
   }
   if (keydata.key == MLX_KEY_S &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    printf("Testing the limits\n");
-    if ((game->player.y + game->textures.player.img->height) >
-        (uint32_t)game->mlx->height)
-      return;
-    printf("Testing the limits\n");
-    move_player_down(game);
-    printf("%d\n", game->player.y);
+    col = 1;
+    move_player(game, row, col);
+    // printf("Testing the limits\n");
+    // if ((game->player.y + game->textures.player.img->height) >
+    //     (uint32_t)game->mlx->height)
+    //   return;
+    // printf("Testing the limits\n");
+    // move_player_down(game);
+    // printf("%d\n", game->player.y);
   }
   if (keydata.key == MLX_KEY_A &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    if ((game->player.x - game->textures.player.img->width) <=
-        (uint32_t)game->mlx->width)
-      return;
-    move_player_left(game);
+    row = -1;
+    move_player(game, row, col);
+    // if ((game->player.x - game->textures.player.img->width) <=
+    //     (uint32_t)game->mlx->width)
+    //   return;
+    // move_player_left(game);
   }
   if (keydata.key == MLX_KEY_W &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    if ((game->player.y - game->textures.player.img->height) <=
-        (uint32_t)game->mlx->height)
-      return;
-    move_player_up(game);
+    col = -1;
+    move_player(game, row, col);
+    // if ((game->player.y - game->textures.player.img->height) <=
+    //     (uint32_t)game->mlx->height)
+    //   return;
+    // move_player_up(game);
   }
 }
 
