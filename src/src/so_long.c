@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: event <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 19:24:56 by event             #+#    #+#             */
+/*   Updated: 2025/04/04 19:24:58 by event            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 // void destroy_player(t_game *game) {
@@ -136,22 +148,16 @@ void paint_map(t_game *game) {
 
 void my_keyhook(mlx_key_data_t keydata, void *param) {
   t_game *game = (t_game *)param;
-  int row;
-  int col;
 
-  row = 0;
-  col = 0;
   if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
     mlx_close_window(game->mlx);
   if (keydata.key == MLX_KEY_D &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    row = 1;
-    move_player(game, row, col);
+    move_player(game, 1, 0);
   }
   if (keydata.key == MLX_KEY_S &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    col = 1;
-    move_player(game, row, col);
+    move_player(game, 0, 1);
     // printf("Testing the limits\n");
     // if ((game->player.y + game->textures.player.img->height) >
     //     (uint32_t)game->mlx->height)
@@ -162,8 +168,7 @@ void my_keyhook(mlx_key_data_t keydata, void *param) {
   }
   if (keydata.key == MLX_KEY_A &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    row = -1;
-    move_player(game, row, col);
+    move_player(game, -1, 0);
     // if ((game->player.x - game->textures.player.img->width) <=
     //     (uint32_t)game->mlx->width)
     //   return;
@@ -171,8 +176,7 @@ void my_keyhook(mlx_key_data_t keydata, void *param) {
   }
   if (keydata.key == MLX_KEY_W &&
       (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) {
-    col = -1;
-    move_player(game, row, col);
+    move_player(game, 0, -1);
     // if ((game->player.y - game->textures.player.img->height) <=
     //     (uint32_t)game->mlx->height)
     //   return;
