@@ -59,7 +59,7 @@ void trim_new_line(char **map) {
       map[i][j - 1] = '\0';
     else if (map[i][j - 1] == '\0')
       return;
-    printf("Rows: %s \n", map[i]);
+    // printf("Rows: %s \n", map[i]);
     i++;
   }
 }
@@ -72,8 +72,8 @@ void read_file(char *filename, t_map *map) {
   map->map = NULL;
   i = 0;
   calc_map_rows_columns(filename, map);
-  printf("Rows: %i \n", map->y);
-  printf("Columns: %i \n", map->x);
+  // printf("Rows: %i \n", map->y);
+  // printf("Columns: %i \n", map->x);
   malloc_map(map);
   fd = open_file(filename);
   // Recheck open failed (redundant)
@@ -88,7 +88,7 @@ void read_file(char *filename, t_map *map) {
   map->map[i] = NULL;
   trim_new_line(map->map);
   // print_map(map->map);
-  printf("Rows: %i \n", map->y);
-  printf("Columns: %i \n", map->x);
+  // printf("Rows: %i \n", map->y);
+  // printf("Columns: %i \n", map->x);
   // print_map(map->map, map->x, map->y);
 }

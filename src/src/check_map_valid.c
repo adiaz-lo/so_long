@@ -47,7 +47,7 @@ void floodFillRecursive(char **map, int32_t x, int32_t y, t_player *player) {
   floodFillRecursive(map, x, y - 1, player);
 
   // floodFillRecursive(map, startX, startY, player);
-  printf("Flood-Fill Print Test\n");
+  // printf("Flood-Fill Print Test\n");
 }
 
 char **copy_map(char **map, int32_t width, int32_t height) {
@@ -88,7 +88,7 @@ void check_map_valid(t_map *map, t_player *player) {
   map_copy = copy_map(map->map, map->x, map->y);
   find_player_position(map, player);
   floodFillRecursive(map_copy, player->x, player->y, player);
-  print_map(map_copy, map->x, map->y);
+  // print_map(map_copy, map->x, map->y);
   check_map_flooded(map_copy);
   // print_map(map_copy, map->y, map->x);
   double_free(map_copy);
