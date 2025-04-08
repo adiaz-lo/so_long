@@ -4,7 +4,9 @@ CC = gcc
 SRCS_DIR = src/
 GNL_SRC_DIR = lib/GNL/
 CFLAGS = -Wall -Werror -Wextra -Iincludes -g3 -Ilib/Libft/includes -Ilib/MLX42/include
-LIB_FLAGS = -Llib/Libft -lft -Llib/MLX42/build -lmlx42 -ldl -lglfw -pthread -lm
+# Non-working LIB_FLAGS
+# LIB_FLAGS = -Llib/Libft -lft -Llib/MLX42/build -lmlx42 -ldl -lglfw -pthread -lm
+LIB_FLAGS = -Llib/Libft -lft -Llib/MLX42/build -lmlx42 -ldl -lglfw -pthread -lm -lGL -lX11 -lGLU
 ARFLAGS = -rcs
 RM = rm -f
 GNL_SRCS = get_next_line.c
