@@ -1,6 +1,6 @@
 NAME = so_long
 DEPS = lib/Libft/libft.a lib/MLX42/build/libmlx42.a
-CC = gcc
+CC = cc
 SRCS_DIR = src/
 GNL_SRC_DIR = lib/GNL/
 CFLAGS = -Wall -Werror -Wextra -Iincludes -g3 -Ilib/Libft/includes -Ilib/MLX42/include
