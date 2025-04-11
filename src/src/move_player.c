@@ -14,8 +14,6 @@
 
 void	move_player(t_game *game, int row, int col)
 {
-    // printf("Printing debugging %i %i %i %i\n", game->player.x, game->player.y, row, col);
-    // printf("Printing debugging %c \n", game->map.map[game->player.y + col][game->player.x + row]);
 	if (game->map.map[game->player.y + col][game->player.x + row] != '1')
 	{
 		game->map.map[game->player.y + col][game->player.x + row] = 'P';
@@ -30,18 +28,5 @@ void	move_player(t_game *game, int row, int col)
 	else
 	{
 		printf("Testing if condition is broken %s %i\n", __FILE__, __LINE__);
-		// printf("Testing TILE_SIZE value %i %s %i\n", TILE_SIZE, __FILE__,
-			// __LINE__);
 	}
-	// printf("Testing width %i %s %i\n", game->mlx->width, __FILE__, __LINE__);
-	// printf("Testing the D key pressed %s %i\n", __FILE__, __LINE__);
-	// if ((game->player.x + 1 /*game->textures.player.img->width*/) >
-	//     (uint32_t)game->mlx->width) {
-	//   printf("Testing the D keypress %s %i\n", __FILE__, __LINE__);
-	//   return ;
-	// }
-	// move_player_right(game);
-	// printf("x coordinate value: %d\n", game->player.x);
-	// printf("Canvas Width: %d\n", game->player.x);
-	// printf("Image Width: %d\n", game->player.x);
 }

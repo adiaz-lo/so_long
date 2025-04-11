@@ -118,12 +118,8 @@ void	paint_map(t_game *game)
 				mlx_image_to_window(game->mlx, game->textures.exit.img, x
 					* TILE_SIZE, y * TILE_SIZE);
 			}
-			printf("Printing the colum value: %i %s %i\n", (int)x, __FILE__,
-				__LINE__);
 			x++;
 		}
-		printf("Printing the row value: %i %s %i\n", (int)y, __FILE__,
-			__LINE__);
 		y++;
 	}
 }
@@ -208,22 +204,6 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	}
 }
 
-int	validate_map_name(char *map_name)
-{
-	char	*map_extension;
-	int		result;
-	int		size;
-
-	size = ft_strlen(MAP_EXTENSION);
-	// Check
-	map_extension = ft_substr(map_name, ft_strlen(map_name) - size, size);
-	result = ft_strncmp(".ber", map_extension, size);
-	free(map_extension);
-	if (result == 0)
-		return (1);
-	return (0);
-}
-
 int32_t	main(int argc, char **argv)
 {
 	t_game	game;
@@ -241,7 +221,9 @@ int32_t	main(int argc, char **argv)
 	read_file(argv[1], &game.map);
 	// map = init_map(map_fd);
 	check_map(&game);
-	game.mlx = mlx_init(WIDTH, HEIGHT, "Tuxy", false);//Multiply width & height per rows & cols + 1
+	printf("Debugging window width & height %i %i %s %i\n", game.map.x, game.map.y, __FILE__, __LINE__);
+	game.mlx = mlx_init(game.map.x * TILE_SIZE, game.map.y * TILE_SIZE, WINDOW_TITLE, false);
+
 	convert_textures_to_images(&game);
 	mlx_key_hook(game.mlx, &my_keyhook, &game);
 	// game = malloc(sizeof(t_game));

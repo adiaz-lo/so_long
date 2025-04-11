@@ -9,3 +9,11 @@ Camino válido
 Use malloc for height copy_map & strdup for each column, instead of doing a complete copy, char by char
 Print copied map when finished, to check flood-fill has been successfully applied
 Free copied map, when finished using it, to avoid leaks
+
+// TODO
+- Make the window size adaptable to the map -> Window Widht & Height Multiply width & height per rows & cols + 1
+- Make the collectionables dissapear (disable) when the player goes on a cell where there're one
+- Make the function that ends game
+- Free what needs to be freed
+- Normi (delete printf calls)
+- Makefile fixes && merge of the branches to have the project for defense at main/master branch
