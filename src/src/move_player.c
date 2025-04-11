@@ -14,8 +14,8 @@
 
 void	move_player(t_game *game, int row, int col)
 {
-    printf("Printing debugging %i %i %i %i\n", game->player.x, game->player.y, row, col);
-    printf("Printing debugging %c \n", game->map.map[game->player.y + col][game->player.x + row]);
+    // printf("Printing debugging %i %i %i %i\n", game->player.x, game->player.y, row, col);
+    // printf("Printing debugging %c \n", game->map.map[game->player.y + col][game->player.x + row]);
 	if (game->map.map[game->player.y + col][game->player.x + row] != '1')
 	{
 		game->map.map[game->player.y + col][game->player.x + row] = 'P';

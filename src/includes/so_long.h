@@ -55,5 +55,6 @@ void check_map_wrong(t_map *map);
 void    check_map_valid(t_map *map, t_player *player);
 void    move_player(t_game *game, int row, int col);
 void    double_free(char **matrix);
+void    check_map(t_game *game);
 
 #endif
